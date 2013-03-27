@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
-import com.packtpub.springdata.jpa.model.Location;
 import com.packtpub.springdata.jpa.model.Student;
-import com.packtpub.springdata.jpa.repository.LocationRepository;
 import com.packtpub.springdata.jpa.repository.StudentRepository;
 
 @Service

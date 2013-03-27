@@ -20,7 +20,7 @@ public class Curriculum extends AbstractBean {
 	 */
 	private static final long serialVersionUID = 1L;
 	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="TBL_CurriculumCourse", joinColumns=@JoinColumn(name="CurriculumId"), inverseJoinColumns=@JoinColumn(name="CourseId"))
+	@JoinTable(name="Tbl_CurriculumCourse", joinColumns=@JoinColumn(name="CurriculumId"), inverseJoinColumns=@JoinColumn(name="CourseId"))
 	private List<Course> courses;
 
 	public List<Course> getCourses() {
