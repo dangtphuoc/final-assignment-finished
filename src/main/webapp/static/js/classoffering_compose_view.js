@@ -5,20 +5,46 @@ function ClassOfferingComposeView() {
 	
 	this.$contentTable = $('<div>');
 	this.$tag.append(this.$contentTable);
-	var $composePanel = $('<div>').addClass('view-holder');
 	this.startDate = new DateInput();
 	this.endDate = new DateInput();
-	this.$location = $('<select>').append($('<option value="1">').text('1'));
-	this.$instructor = $('<select>').append($('<option value="1">').text('1'));
+	this.$location = $('<select>');
+	this.$instructor = $('<select>');
 	this.$addButton = $('<button class="btn" type="button">Add</button>');
 	
 	this.$addButton.click(function(){
 		self.addOffering();
 	});
+	
+	this.initializeLocations();
+	this.initializeInstructors();
 	return this;
 }
 
 ClassOfferingComposeView.prototype = new BaseView();
+
+ClassOfferingComposeView.prototype.initializeLocations = function() {
+	var self = this;
+	makeAjaxRequest("/locations", "GET", "json",
+	function(data) {
+		if(data != undefined) {
+			for(var i in data) {
+				self.$location.append($('<option>').attr({'value' : data[i].id}).text(data[i].title));
+			}
+		}
+	});
+};
+
+ClassOfferingComposeView.prototype.initializeInstructors = function() {
+	var self = this;
+	makeAjaxRequest("/students?filterRole=3", "GET", "json",
+	function(data) {
+		if(data != undefined) {
+			for(var i in data) {
+				self.$instructor.append($('<option>').attr({'value' : data[i].id}).text(data[i].firstName + " " + data[i].lastName));
+			}
+		}
+	});
+};
 
 ClassOfferingComposeView.prototype.repaint = function() {
 	var simpleTable = new SimpleTableView();
@@ -41,8 +67,12 @@ ClassOfferingComposeView.prototype.addOffering = function() {
 	var offering = {};
 	offering.startTime = this.startDate.getSelectedDate();
 	offering.endTime = this.endDate.getSelectedDate();
-	offering.location = {id: this.$location.val()};
-	//offering.instructor = {id: this.$instructor.val()};
+	if(this.$location.val() != undefined && this.$location.val() != "") {
+		offering.location = {id: this.$location.val()};
+	}
+	if(this.$instructor.val() != undefined && this.$instructor.val() != "") {
+		offering.instructor = {id: this.$instructor.val()};
+	}
 	this.model.push(offering);
 	
 	this.repaint();

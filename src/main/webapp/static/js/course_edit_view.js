@@ -23,6 +23,8 @@ function CourseEditView(isCreate) {
 	this.$tag.append($content);
 	this.classOfferingView = new ClassOfferingComposeView();
 	this.$tag.append(this.classOfferingView.getTag());
+	
+	return this;
 }
 
 CourseEditView.prototype = new BaseView();

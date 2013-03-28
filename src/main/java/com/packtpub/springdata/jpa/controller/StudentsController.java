@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.packtpub.springdata.jpa.common.ErrorType;
@@ -36,8 +37,11 @@ public class StudentsController {
 	
 	@RequestMapping(method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<Student> getStudents() {
-		return studentService.getStudents();
+	public List<Student> getStudents(@RequestParam(value="filterRole", required=false) Long filterRole) {
+		if(filterRole == null) {
+			return studentService.getStudents();
+		}
+		return studentService.getStudents(filterRole);
 	}
 
 	@RequestMapping(method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

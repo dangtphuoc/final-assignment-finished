@@ -36,4 +36,9 @@ public class StudentService {
 		}
 		return managedStudent;
 	}
+
+	public List<Student> getStudents(Long filterRole) {
+		return studentRepository.getStudents(filterRole);
+	}
+
 }

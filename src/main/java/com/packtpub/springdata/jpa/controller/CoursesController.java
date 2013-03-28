@@ -46,7 +46,6 @@ public class CoursesController {
     @Transactional
     @ResponseBody
     public ResponseBean createCourse(@RequestBody Course course, BindingResult result) {
-    	//System.out.println(course.getTitle());
     	course = courseService.createCourse(course);
     	ErrorType error = ErrorType.SUCCESS;
     	if(course == null) {

@@ -42,7 +42,7 @@ public class ClassOffering extends AbstractBean {
 	@JoinColumn(name="CourseId")
 	private Course course;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="InstructorId")
 	private Student instructor;
 	
