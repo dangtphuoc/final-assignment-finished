@@ -12,7 +12,7 @@ var Contact = {
     addMessage:function (message) {
         var alertTemplate = Handlebars.compile($("#template-alert-message").html());
         $("#message-holder").html(alertTemplate({message:message}));
-        $("#alert-message").alert().delay(5000).fadeOut("fast", function() { $(this).remove(); })
+        $("#alert-message").alert().delay(5000).fadeOut("fast", function() { $(this).remove(); });
     },
     getErrorMessageCacheKey: function() {
         return "contacts.errorMessage";
@@ -67,9 +67,9 @@ $(document).ready(function () {
 
 $(document).bind('ajaxError', function(error, response) {
     if (response.status == "404") {
-        window.location.href = "/error/404";
+        window.location.href = JSConfig.getInstance().getRESTUrl() + "error/404";
     }
     else {
-        window.location.href = "/error/error";
+        window.location.href = JSConfig.getInstance().getRESTUrl() + "error/error";
     }
 });

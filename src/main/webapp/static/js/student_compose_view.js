@@ -54,7 +54,7 @@ StudentComposeView.prototype = new BaseView();
 
 StudentComposeView.prototype.initializeRoles = function() {
 	var self = this;
-	makeAjaxRequest("/roles", "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + "roles", "GET", "json",
 	function(data) {
 		if(data != undefined) {
 			for(var i in data) {
@@ -65,7 +65,7 @@ StudentComposeView.prototype.initializeRoles = function() {
 };
 StudentComposeView.prototype.initializeManagers = function() {
 	var self = this;
-	makeAjaxRequest("/students?filterRole=2", "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + "students?filterRole=2", "GET", "json",
 	function(data) {
 		if(data != undefined) {
 			for(var i in data) {
@@ -97,9 +97,9 @@ StudentComposeView.prototype.saveChanges = function() {
 	if(this.$manager.val() != undefined && this.$manager.val() != '') {
 		this.model.manager = {id : this.$manager.val()};
 	}
-	var url = '/students/update';
+	var url = JSConfig.getInstance().getRESTUrl() + 'students/update';
 	if(this.isCreate) {
-		url = '/student';
+		url = JSConfig.getInstance().getRESTUrl() + 'student';
 	}
 	makeAjaxRequest(url, "POST", "json",
 	function (){

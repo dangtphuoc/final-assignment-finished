@@ -34,7 +34,7 @@ LocationAddView.prototype.saveChanges = function() {
 	var description = this.$description.val();
 	this.model.title = title;
 	this.model.description = description;
-	makeAjaxRequest('/locations/update', "POST", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'locations/update', "POST", "json",
 	function (){
 		EventManager.getInstance().notifyEvent(EventManager.LOCATION_CREATED);
 	}, 

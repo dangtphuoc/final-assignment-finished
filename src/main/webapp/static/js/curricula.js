@@ -17,7 +17,7 @@ $(function() {
     });
 	
 	$('#btnSearch').click(function() {
-		makeAjaxRequest('/curricula/search?key=' + $('#inSearchKey').val(), 'GET', 'JSON', "jsonCBCurricula");
+		makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula/search?key=' + $('#inSearchKey').val(), 'GET', 'JSON', "jsonCBCurricula");
 	});
 	
 	/**
@@ -31,7 +31,7 @@ function initData() {
 	
 }
 function loadCurriculumData() {
-	makeAjaxRequest('/curricula', "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula', "GET", "json",
 				"jsonCBCurricula", undefined, undefined);
 }
 function jsonCBCurricula(data) {
@@ -54,7 +54,7 @@ function jsonCBCurricula(data) {
 }
 
 function editCurriculum(id) {
-	makeAjaxRequest('/curricula/' + id, "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula/' + id, "GET", "json",
 			"jsobCBEditCurriculum");
 }
 function jsonCBCurricula(data) {
@@ -89,7 +89,11 @@ function jsobCBEditCurriculum(data) {
 
 function removeCurriculum(event) {
 	var curriculum = event.data;
-	makeAjaxRequest('/curricula/' + curriculum.id, 'DELETE', 'json', function() {
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula/' + curriculum.id, 'DELETE', 'json', function() {
 		loadCurriculumData();
 	});
 }
+
+$(function() {
+    $("#navi-curricula-link").addClass("active");
+});

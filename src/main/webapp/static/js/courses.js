@@ -64,7 +64,7 @@ function cbCourses(data) {
 	$courseDiv.append(simpleTable.getTag());
 }
 function editCourse(id) {
-	makeAjaxRequest('/courses/' + id, "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'courses/' + id, "GET", "json",
 			"cbEditCourse");
 }
 function cbEditCourse(data) {
@@ -89,15 +89,15 @@ function initData() {
 	
 }
 function loadCourseData() {
-	makeAjaxRequest('/courses', "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'courses', "GET", "json",
 				"cbCourses", undefined, undefined);
 }
 function loadLocationData() {
-	makeAjaxRequest('/locations', "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'locations', "GET", "json",
 			"cbLoadLocationData", undefined, undefined);
 }
 function loadStudentData() {
-	makeAjaxRequest('/students', "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students', "GET", "json",
 			"cbLoadStudentData", undefined, undefined);
 }
 function cbLoadLocationData(data) {
@@ -137,6 +137,10 @@ function cbLoadStudentData(data) {
 	$studentContentDiv.append(simpleTable.getTag());
 }
 function editStudent(id) {
-	makeAjaxRequest('/students/' + id, "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students/' + id, "GET", "json",
 			"cbEditStudent");
 }
+
+$(function() {
+    $("#navi-courses-link").addClass("active");
+});

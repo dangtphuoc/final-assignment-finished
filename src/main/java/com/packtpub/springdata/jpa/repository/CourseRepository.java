@@ -12,7 +12,7 @@ import com.packtpub.springdata.jpa.model.Course;
 
 
 @Transactional
-public interface CourseRepository extends JpaRepository<Course, Long>, QueryDslPredicateExecutor<Course> {
+public interface CourseRepository extends JpaRepository<Course, Long>, QueryDslPredicateExecutor<Course>, CourseRepositoryCustom {
 
 	@Query("Select c From Course c Where c.title LIKE :key")
 	public List<Course> getCourses(@Param("key") String key);

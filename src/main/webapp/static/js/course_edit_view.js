@@ -41,9 +41,9 @@ CourseEditView.prototype.saveChanges = function() {
 	this.model.title = title;
 	this.model.description = description;
 	this.model.classOfferings = this.classOfferingView.model;
-	var url = '/courses';
+	var url = JSConfig.getInstance().getRESTUrl() + 'courses';
 	if(!this.isCreate) {
-		url = '/courses/update';
+		url = JSConfig.getInstance().getRESTUrl() + 'courses/update';
 	}
 	makeAjaxRequest(url, "POST", "json",
 			"cbSaveChanges", undefined, JSON.stringify(this.model));

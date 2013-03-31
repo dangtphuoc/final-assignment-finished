@@ -24,7 +24,7 @@ ClassOfferingComposeView.prototype = new BaseView();
 
 ClassOfferingComposeView.prototype.initializeLocations = function() {
 	var self = this;
-	makeAjaxRequest("/locations", "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + "locations", "GET", "json",
 	function(data) {
 		if(data != undefined) {
 			for(var i in data) {
@@ -36,7 +36,7 @@ ClassOfferingComposeView.prototype.initializeLocations = function() {
 
 ClassOfferingComposeView.prototype.initializeInstructors = function() {
 	var self = this;
-	makeAjaxRequest("/students?filterRole=3", "GET", "json",
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + "students?filterRole=3", "GET", "json",
 	function(data) {
 		if(data != undefined) {
 			for(var i in data) {

@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <script type="text/javascript" src="/static/js/contact.home.js"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/contact.home.js" />" ></script>
     <title></title>
 </head>
 <body>

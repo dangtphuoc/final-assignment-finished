@@ -13,6 +13,7 @@
 
     <script type="text/javascript" src="<c:url value="/static/js/vendor/json2.js" />"></script>
     <script type="text/javascript" src="<c:url value="/static/js/vendor/amplify.js" />"></script>
+     <script type="text/javascript" src="<c:url value="/static/js/vendor/moment.js" />"></script>
 
     <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-transition.js" />"></script>
     <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-alert.js" />"></script>
@@ -22,8 +23,15 @@
     <script type="text/javascript" src="<c:url value="/static/js/vendor/handlebars-1.0.0.beta.6.js" />"></script>
     <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-datepicker.js" />"></script>
     
+    <!-- System configuration -->
+    <script type="text/javascript" src="<c:url value="/static/js/jsconfig.js" />"></script>
+    <script type="text/javascript">
+    	JSConfig.getInstance().setRESTUrl("<c:url value="/" />");
+    </script>
 	<script type="text/javascript" src="<c:url value="/static/js/ajax.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/static/js/event_manager.js" />"></script>
+	
+	<!-- common js -->
     <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
     <script type="text/javascript" src="<c:url value="/static/js/base_view.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/static/js/simple_modal_dialog.js" />"></script>
@@ -49,9 +57,11 @@
                         <ul id="navigation" class="nav">
                             <li id="navi-homepage-link"><a href="<c:url value="/" />" ><spring:message code="header.home.link.label"/></a></li>
                             <li class="divider-vertical"></li>
-                            <li id="navi-course-link"><a href="<c:url value="/courses/home" />"><spring:message code="header.courses.link.label"/></a></li>
+                            <li id="navi-courses-link"><a href="<c:url value="/courses/home" />"><spring:message code="header.courses.link.label"/></a></li>
                             <li class="divider-vertical"></li>
-                            <li id="navi-course-link"><a href="<c:url value="/curricula/home" />"><spring:message code="header.curricula.link.label"/></a></li>
+                            <li id="navi-curricula-link"><a href="<c:url value="/curricula/home" />"><spring:message code="header.curricula.link.label"/></a></li>
+                            <li class="divider-vertical"></li>
+                            <li id="navi-students-link"><a href="<c:url value="/students/home" />"><spring:message code="header.students.link.label"/></a></li>
                         </ul>
                     </div>
                 </div>

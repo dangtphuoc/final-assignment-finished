@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,8 @@ import com.packtpub.springdata.jpa.service.StudentService;
 public class StudentsController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentsController.class);
+
+	private static final String STUDENT_HOME_VIEW = "students";
 	
 	@Autowired
 	private StudentService studentService;
@@ -65,4 +68,15 @@ public class StudentsController {
     	}
         return new ResponseBean(error);
 	}
+	
+	/**
+     * Shows the student home page.
+     * @param model The model.
+     * @return  The name of the student home view.
+     */
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String showStudentsHomePage(Model model) {
+        LOGGER.debug("Showing student home page");
+        return STUDENT_HOME_VIEW;
+    }
 }

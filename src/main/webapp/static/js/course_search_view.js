@@ -35,7 +35,7 @@ CourseSearchView.prototype = new BaseView();
 
 CourseSearchView.prototype.searchCourses = function() {
 	var self = this;
-	makeAjaxRequest('/courses/search?key=' + this.$find.val(), 'GET', 'json', function(data){
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'courses/search?key=' + this.$find.val(), 'GET', 'json', function(data){
 		self.loadCourseTable(data);
 	});
 };

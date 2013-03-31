@@ -2,6 +2,7 @@ package com.packtpub.springdata.jpa.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,9 @@ public class CourseService {
 	public List<Course> searchCourses(String key) {
 		Predicate query = searchByTitleAndDescription(key);
 		return Lists.newArrayList(courseRepository.findAll(query));
+	}
+
+	public List<Course> searchCourses(String key, Date startDate, Date endDate) {
+		return courseRepository.searchCourses(key, startDate, endDate);
 	}
 }

@@ -1,5 +1,6 @@
 package com.packtpub.springdata.jpa.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,8 +37,7 @@ public class CoursesController {
 	@RequestMapping(method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<Course> getCourses(@RequestParam(value="key", required=false) String key) 
-	{
+	public List<Course> getCourses(@RequestParam(value="key", required=false) String key) {
 		List<Course> courses = courseService.getCourses(key);
 		return courses;
 	}
@@ -45,9 +45,10 @@ public class CoursesController {
 	@RequestMapping(value="/search", method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<Course> searchCourses(@RequestParam(value="key", required=false) String key) 
-	{
-		List<Course> courses = courseService.searchCourses(key);
+	public List<Course> searchCourses(@RequestParam(value="key", required=false) String key, 
+			@RequestParam(value="startDate", required=false) Date startDate,
+			@RequestParam(value="endDate", required=false) Date endDate) {
+		List<Course> courses = courseService.searchCourses(key, startDate, endDate);
 		return courses;
 	}
 	

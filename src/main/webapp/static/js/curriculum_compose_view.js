@@ -85,8 +85,8 @@ CurriculumComposeView.prototype.saveChanges = function() {
 	var description = this.$description.val();
 	this.model.title = title;
 	this.model.description = description;
-	var url = '/curricula';
-	if(this.model.id != undefined) url = '/curricula/update';
+	var url = JSConfig.getInstance().getRESTUrl() + 'curricula';
+	if(this.model.id != undefined) url = JSConfig.getInstance().getRESTUrl() + 'curricula/update';
 	makeAjaxRequest(url, "POST", "json",
 	function (){
 		EventManager.getInstance().notifyEvent(EventManager.CURRICULUM_CREATED);
