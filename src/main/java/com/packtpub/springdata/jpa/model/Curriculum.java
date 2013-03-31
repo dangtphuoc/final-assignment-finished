@@ -11,6 +11,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="Tbl_Curriculum")
 public class Curriculum extends AbstractBean {
@@ -19,16 +22,25 @@ public class Curriculum extends AbstractBean {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany()
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name="Tbl_CurriculumCourse", joinColumns=@JoinColumn(name="CurriculumId"), inverseJoinColumns=@JoinColumn(name="CourseId"))
-	private List<Course> courses;
+	private Set<Course> courses;
 
-	public List<Course> getCourses() {
+	public Set<Course> getCourses() {
 		return courses;
 	}
 
-	public void setCourses(List<Course> courses) {
+	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
+	}
+
+	public Curriculum updateCurriculum(Curriculum curriculum) {
+		this.setTitle(curriculum.getTitle());
+		this.setDescription(curriculum.getDescription());
+		this.getCourses().addAll(curriculum.getCourses());
+		this.getCourses().retainAll(curriculum.getCourses());
+		return this;
 	}
 	
 }

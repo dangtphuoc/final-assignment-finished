@@ -1,17 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-	<script type="text/javascript" src="/static/js/base_view.js"></script>
-	<script type="text/javascript" src="/static/js/model_dialog.js"></script>
-	<script type="text/javascript" src="/static/js/simple_table_view.js"></script>
-    <script type="text/javascript" src="/static/js/course_edit_view.js"></script>
-    <script type="text/javascript" src="/static/js/classoffering_compose_view.js"></script>
-    <script type="text/javascript" src="/static/js/date_input.js"></script>
-    <script type="text/javascript" src="/static/js/location_add_view.js"></script>
-    <script type="text/javascript" src="/static/js/student_compose_view.js"></script>
-    <script type="text/javascript" src="/static/js/course.js"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/course_edit_view.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/classoffering_compose_view.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/date_input.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/location_add_view.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/student_compose_view.js"/>" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/courses.js" />" ></script>
     <title></title>
 </head>
 <body>

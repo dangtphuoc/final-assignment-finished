@@ -1,4 +1,4 @@
-function ModalDialog() {
+function ModalDialog(title) {
 	this.$tag = $('<div>').addClass('modal hide fade').attr({"tabindex":"-1", "role":"dialog", "aria-labelledby":"myModalLabel", "aria-hidden":"true"});
 	this.$header = $('<div>').addClass('modal-header');
 	this.$body = $('<div>').addClass('modal-body');
@@ -7,14 +7,14 @@ function ModalDialog() {
 	
 	var $headerCloseButton = $('<button>').addClass('close').attr({type: 'button', "data-dismiss" : 'modal', "aria-hidden" : 'true'}).text('x');
 	this.$header.append($headerCloseButton);
-	this.$header.append('<h3>Modal header</h3>');
+	this.$header.append($('<h3>').append(title == undefined? "Modal Header" : title));
 	this.$body.append('<p>One fine body…</p>');
 	
 	var $footerCloseButton = $('<button>').addClass('btn').attr({"data-dismiss" : 'modal', "aria-hidden" : 'true'}).text('Close');
 	var $saveButton = $('<button>').addClass('btn btn-primary').text('Save Changes');
-	var that = this;
+	var self = this;
 	$saveButton.click(function(){
-		that.handleSaveChanges();
+		self.handleSaveChanges();
 	});
 	this.$footer.append($saveButton);
 	this.$footer.append($footerCloseButton);

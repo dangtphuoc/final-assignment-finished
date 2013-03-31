@@ -7,10 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.mysema.query.types.Predicate;
 import com.packtpub.springdata.jpa.model.ClassOffering;
 import com.packtpub.springdata.jpa.model.Course;
+import static com.packtpub.springdata.jpa.querydsl.predicate.CoursePredicate.searchByTitleAndDescription;
 import com.packtpub.springdata.jpa.repository.ClassOfferingRepository;
 import com.packtpub.springdata.jpa.repository.CourseRepository;
 
@@ -34,8 +38,12 @@ public class CourseService {
 		return managedCourse;
 	}
 
-	public List<Course> getCourses() {
-		return Lists.newArrayList(courseRepository.findAll());
+	public List<Course> getCourses(String key) {
+		if(Strings.isNullOrEmpty(key)) {
+			return Lists.newArrayList(courseRepository.findAll());
+		} else {
+			return courseRepository.getCourses("%" + key + "%");
+		}
 	}
 
 	public Course getCourse(Long courseId) {
@@ -67,5 +75,10 @@ public class CourseService {
 		oldCourse.setDescription(course.getDescription());
 		
 		return oldCourse;
+	}
+
+	public List<Course> searchCourses(String key) {
+		Predicate query = searchByTitleAndDescription(key);
+		return Lists.newArrayList(courseRepository.findAll(query));
 	}
 }

@@ -8,7 +8,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.junit.Ignore;
 
 @Entity
 @Table(name="Tbl_Role")

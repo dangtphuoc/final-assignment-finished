@@ -4,27 +4,30 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/styles.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/datepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/bootstrap.css" />"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/bootstrap-responsive.css" />"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/styles.css" />"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/datepicker.css" />"/>
 
-    <script type="text/javascript" src="/static/js/vendor/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/jquery-1.7.2.js" />"></script>
 
-    <script type="text/javascript" src="/static/js/vendor/json2.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/amplify.js"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/json2.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/amplify.js" />"></script>
 
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-transition.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-alert.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-collapse.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-modal.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-tab.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/handlebars-1.0.0.beta.6.js"></script>
-    <script type="text/javascript" src="/static/js/vendor/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-transition.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-alert.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-collapse.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-modal.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-tab.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/handlebars-1.0.0.beta.6.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/vendor/bootstrap-datepicker.js" />"></script>
     
-	<script type="text/javascript" src="/static/js/ajax.js"></script>
-	<script type="text/javascript" src="/static/js/event_manager.js"></script>
-    <script type="text/javascript" src="/static/js/contact.js"></script>
+	<script type="text/javascript" src="<c:url value="/static/js/ajax.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/static/js/event_manager.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/static/js/base_view.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/static/js/simple_modal_dialog.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/static/js/simple_table_view.js" />"></script>
 
     <sitemesh:write property="head"/>
 
@@ -44,9 +47,11 @@
                     </a>
                     <div class="nav-collapse">
                         <ul id="navigation" class="nav">
-                            <li id="navi-homepage-link"><a href="/"><spring:message code="header.home.link.label"/></a></li>
+                            <li id="navi-homepage-link"><a href="<c:url value="/" />" ><spring:message code="header.home.link.label"/></a></li>
                             <li class="divider-vertical"></li>
-                            <li id="navi-course-link"><a href="/courses/home"><spring:message code="header.course.link.label"/></a></li>
+                            <li id="navi-course-link"><a href="<c:url value="/courses/home" />"><spring:message code="header.courses.link.label"/></a></li>
+                            <li class="divider-vertical"></li>
+                            <li id="navi-course-link"><a href="<c:url value="/curricula/home" />"><spring:message code="header.curricula.link.label"/></a></li>
                         </ul>
                     </div>
                 </div>

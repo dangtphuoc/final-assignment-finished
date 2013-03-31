@@ -26,13 +26,19 @@ SimpleTableView.prototype.setModel = function(model) {
 SimpleTableView.prototype.repaint = function()  {
 	var $tbody = $('<tbody>');
 	this.$tag.append($tbody);
-	for(var i in this.model) {
-		var $row = $('<tr>');
-		var r = this.model[i];
-		for(var j in r) {
-			var c = r[j];
-			$row.append($('<td>').append(c));
+	if(this.model != undefined && this.model.length > 0) {
+		for(var i in this.model) {
+			var $row = $('<tr>');
+			var r = this.model[i];
+			for(var j in r) {
+				var c = r[j];
+				$row.append($('<td>').append(c));
+			}
+			$tbody.append($row);
 		}
+	} else {
+		var $row = $('<tr>');
+		$row.append($('<td>').attr({colspan : this.header.length}).append('There is no content'));
 		$tbody.append($row);
 	}
 };

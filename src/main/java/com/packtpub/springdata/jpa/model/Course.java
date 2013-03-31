@@ -2,6 +2,7 @@ package com.packtpub.springdata.jpa.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @XmlRootElement(name="course")
@@ -25,9 +28,10 @@ public class Course extends AbstractBean {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy="courses",  fetch=FetchType.LAZY)
-	private List<Curriculum> curricula;
+	private Set<Curriculum> curricula;
 	
-	@OneToMany(mappedBy="course", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ClassOffering> classOfferings;
 	
 	public List<ClassOffering> getClassOfferings() {
@@ -45,11 +49,11 @@ public class Course extends AbstractBean {
 		super(title, description);
 	}
 
-	public List<Curriculum> getCurricula() {
+	public Set<Curriculum> getCurricula() {
 		return curricula;
 	}
 
-	public void setCurricula(List<Curriculum> curricula) {
+	public void setCurricula(Set<Curriculum> curricula) {
 		this.curricula = curricula;
 	}
 

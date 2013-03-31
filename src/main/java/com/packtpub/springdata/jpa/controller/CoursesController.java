@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.packtpub.springdata.jpa.common.ErrorType;
@@ -27,7 +28,7 @@ import com.packtpub.springdata.jpa.service.CourseService;
 public class CoursesController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CoursesController.class);
-	private final String COURSE_VIEW = "course";
+	private static final String COURSE_HOME_VIEW = "courses";
 	
 	@Autowired
 	private CourseService courseService;
@@ -35,9 +36,18 @@ public class CoursesController {
 	@RequestMapping(method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<Course> getCourses() 
+	public List<Course> getCourses(@RequestParam(value="key", required=false) String key) 
 	{
-		List<Course> courses = courseService.getCourses();
+		List<Course> courses = courseService.getCourses(key);
+		return courses;
+	}
+	
+	@RequestMapping(value="/search", method = RequestMethod.GET, 
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@ResponseBody
+	public List<Course> searchCourses(@RequestParam(value="key", required=false) String key) 
+	{
+		List<Course> courses = courseService.searchCourses(key);
 		return courses;
 	}
 	
@@ -78,14 +88,14 @@ public class CoursesController {
 	}
 	
 	/**
-     * Shows the add contact page.
+     * Shows the courses home page.
      * @param model The model.
-     * @return  The name of the add contact view.
+     * @return  The name of the course home view.
      */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String showAddContactPage(Model model) {
-        LOGGER.debug("Showing course page");
-        return COURSE_VIEW;
+    public String showCoursesHomePage(Model model) {
+        LOGGER.debug("Showing courses home page");
+        return COURSE_HOME_VIEW;
     }
 	
 }

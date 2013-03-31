@@ -7,6 +7,7 @@ EventManager.COURSE_CREATED = 'course_create';
 EventManager.COURSE_UPDATED = 'course_update';
 EventManager.LOCATION_CREATED = 'location_create';
 EventManager.LOCATION_UPDATED = 'location_update';
+EventManager.CURRICULUM_CREATED = 'curriculum_created';
 
 EventManager.prototype = new EventManager();
 EventManager.prototype.registerHandler = function(eventType, handler) {
