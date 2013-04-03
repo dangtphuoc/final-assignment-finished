@@ -12,11 +12,16 @@ public class BaseDTO{
 	public BaseDTO() {
 	}
 	
+	public BaseDTO(Long id) {
+		this.id = id;
+	}
+	
 	public BaseDTO(Long id, String title, String description) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 	}
+
 	public Long getId() {
 		return id;
 	}

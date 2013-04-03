@@ -28,7 +28,9 @@ public class StudentDTO extends BaseDTO {
 	}
 	
 	public StudentDTO(Student instructor) {
-		super(instructor.getId(), instructor.getFirstName(), instructor.getLastName());
+		super(instructor.getId());
+		setFirstName(instructor.getFirstName());
+		setLastName(instructor.getLastName());
 		setBirthday(instructor.getBirthday());
 		List<RoleDTO> roles = new ArrayList<RoleDTO>();
 		if(instructor.getRoles() != null) {

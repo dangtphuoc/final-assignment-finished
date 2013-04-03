@@ -34,26 +34,9 @@ function loadCurriculumData() {
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula', "GET", "json",
 				"jsonCBCurricula", undefined, undefined);
 }
-function jsonCBCurricula(data) {
-	var simpleTable = new SimpleTableView();
-	var header = ['Id', 'Title', 'Description'];
-	simpleTable.setHeader(header);
-	var model = [];
-	for(var i in data) {
-		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editCurriculum(data[i].id);
-		});
-		var item = [$link, data[i].title, data[i].description];
-		model.push(item);
-	}
-	simpleTable.setModel(model);
-	var $curriculaContentDiv = $('#curricula');
-	$curriculaContentDiv.empty();
-	$curriculaContentDiv.append(simpleTable.getTag());
-}
 
-function editCurriculum(id) {
+function editCurriculum(event) {
+	var id = event.data.id;
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'curricula/' + id, "GET", "json",
 			"jsobCBEditCurriculum");
 }
@@ -64,9 +47,7 @@ function jsonCBCurricula(data) {
 	var model = [];
 	for(var i in data) {
 		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editCurriculum(data[i].id);
-		});
+		$link.click(data[i], editCurriculum);
 		var $removeIcon = $('<i>').addClass('icon-remove-sign');
 		$removeIcon.click(data[i], removeCurriculum);
 		var item = [$link, data[i].title, data[i].description, $removeIcon];

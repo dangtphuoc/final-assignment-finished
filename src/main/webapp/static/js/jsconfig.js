@@ -3,6 +3,7 @@ function JSConfig() {
 }
 JSConfig.prototype = new JSConfig();
 
+JSConfig.SYSTEM_FORMAT_DATE = 'MM/DD/YYYY';
 JSConfig.instance = null;
 
 JSConfig.getInstance = function() {

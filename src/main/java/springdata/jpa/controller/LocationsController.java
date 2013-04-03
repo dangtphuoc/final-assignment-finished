@@ -7,12 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import springdata.jpa.common.ErrorType;
+import springdata.jpa.dto.LocationDTO;
 import springdata.jpa.dto.ResponseBean;
 import springdata.jpa.model.Location;
 import springdata.jpa.service.LocationService;
@@ -32,6 +34,14 @@ public class LocationsController {
 	@ResponseBody
 	public List<Location> getLocations() {
 		return locationService.getLocations();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@ResponseBody
+	public LocationDTO getLocation(@PathVariable("id") Long id) {
+		Location location =  locationService.getLocation(id);
+		LocationDTO locationDTO = new LocationDTO(location);
+		return locationDTO;
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

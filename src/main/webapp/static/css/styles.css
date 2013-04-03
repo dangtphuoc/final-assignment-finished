@@ -57,3 +57,13 @@ legend {
 .modal-backdrop.fade.in {
 	opacity: 0.2;
 }
+.classoffering_compose_view_content_table input {
+	width: 120px;
+}
+#alert-message-error{
+	display: block;
+	position: fixed;
+	top: 10px;
+	right: 40%;
+	z-index: 9999;
+}

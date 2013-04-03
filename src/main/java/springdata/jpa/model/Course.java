@@ -30,7 +30,7 @@ public class Course extends AbstractBean {
 	@ManyToMany(mappedBy="courses",  fetch=FetchType.LAZY)
 	private Set<Curriculum> curricula;
 	
-	@OneToMany(mappedBy="course", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL, orphanRemoval=true)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ClassOffering> classOfferings;
 	
@@ -50,7 +50,7 @@ public class Course extends AbstractBean {
 	}
 	
 	public Course(Long id, String title, String description) {
-		super(title, description);
+		super(id, title, description);
 	}
 
 	public Set<Curriculum> getCurricula() {

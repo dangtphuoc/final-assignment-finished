@@ -33,7 +33,7 @@
 					</div>
 				</form>
 				<div class="pull-right">
-					<button type="button" class="btn" id="btnAddCurriculum"><i class="icon-plus"></i> Add Curriculum</button>
+					<button type="button" class="btn" id="btnAddCurriculum"><i class="icon-plus"></i> Add</button>
 				</div>
 				<div id="course_content" class="content_table_div">
 				</div>

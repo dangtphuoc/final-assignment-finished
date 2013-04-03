@@ -1,7 +1,7 @@
 function LocationAddView() {
 	this.$tag = $('<div>');
 	this.$title =  $('<input>').attr({"type":"text", "placeholder":"Title"});
-	this.$description =  $('<input>').attr({"type":"text", "placeholder":"Description"});
+	this.$description =  $('<textarea>').attr({"row":"3", "placeholder":"Description"});
 	var $form = $('<form class="form-horizontal">');
 	var $controlGroup1 = $('<div class="control-group">');
 	var $label1 = $('<label class="control-label" for="courseEditTitle">Course Title</label>');

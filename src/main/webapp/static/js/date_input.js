@@ -11,5 +11,5 @@ function DateInput(id) {
 DateInput.prototype = new BaseView();
 
 DateInput.prototype.getSelectedDate = function() {
-	return this.selectedDate;
+	return this.selectedDate == undefined ? "" : this.selectedDate;
 };

@@ -63,7 +63,7 @@ public class CourseService {
 		if(oldCourse.getClassOfferings() != null) {
 			List<ClassOffering> cloneOne = oldCourse.cloneClassOfferings();
 			for(ClassOffering cla : cloneOne) {
-				oldCourse.removeClassOffering(cla);
+				if(!course.getClassOfferings().contains(cla)) oldCourse.removeClassOffering(cla);
 			}
 		}
 		//update class offerings

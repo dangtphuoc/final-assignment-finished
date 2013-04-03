@@ -22,9 +22,9 @@ function ModalDialog(title) {
 
 ModalDialog.prototype = new BaseView();
 
-ModalDialog.prototype.showDialog = function() {
-	this.$tag.css({'width': '800px'});
-	this.$tag.modal('show');
+ModalDialog.prototype.showDialog = function(width) {
+	width = width == undefined ? '1000px' : width;
+	this.$tag.modal('toggle').css({'width': width,'margin-left': function () {return -($(this).width() / 2);}});
 };
 
 ModalDialog.prototype.repaint = function() {

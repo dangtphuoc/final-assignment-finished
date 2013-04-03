@@ -27,24 +27,18 @@
 		</ul>
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade active in" id="home">
-				<div class="control-group">
-					<div class="controls">
-						<button type="button" class="btn btn-primary" id="btnAddCourse">Add</button>
-						<button type="button" class="btn btn-primary" id="btnDeleteCourse">Delete</button>
-					</div>
+				<div class="pull-right">
+					<button type="button" class="btn" id="btnAddCourse"><i class="icon-plus"></i> Add</button>
 				</div>
-				<div id="course_content">
+				<div id="course_content" class="content_table_div">
 				</div>
 			</div>
 			
 			<div class="tab-pane fade" id="location">
-				<div class="control-group">
-					<div class="controls">
-						<button type="button" class="btn btn-primary" id="btnAddLocation">Add</button>
-						<button type="button" class="btn btn-primary" id="btnDeleteLocation">Delete</button>
-					</div>
-					<div id='location_content'></div>
+				<div class="pull-right">
+					<button type="button" class="btn" id="btnAddLocation"><i class='icon-plus'></i> Add</button>
 				</div>
+				<div id='location_content' class='content_table_div'></div>
 			</div>
 			
 			<div class="tab-pane fade" id="student">

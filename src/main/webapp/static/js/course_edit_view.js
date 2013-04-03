@@ -2,7 +2,7 @@ function CourseEditView(isCreate) {
 	this.isCreate = isCreate;
 	this.$tag = $('<div>');
 	this.$title =  $('<input>').attr({"type":"text", "placeholder":"Title"});
-	this.$description =  $('<input>').attr({"type":"text", "placeholder":"Description"});
+	this.$description =  $('<textarea>').attr({"row":"3", "placeholder":"Description"});
 	var $form = $('<form class="form-horizontal">');
 	var $controlGroup1 = $('<div class="control-group">');
 	var $label1 = $('<label class="control-label" for="courseEditTitle">Course Title</label>');
@@ -21,6 +21,8 @@ function CourseEditView(isCreate) {
 	$controls1.append(this.$title);
 	$controls2.append(this.$description);
 	this.$tag.append($content);
+	
+	this.$tag.append($('<h4>').text("Class Offerings"));
 	this.classOfferingView = new ClassOfferingComposeView();
 	this.$tag.append(this.classOfferingView.getTag());
 	

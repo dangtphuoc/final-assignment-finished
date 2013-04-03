@@ -1,12 +1,11 @@
 $(function() {
-	//init data
 	initData();
 	$('#btnAddCourse').click(function(){
 		var courseView = new CourseEditView(true);
 		var courseModel = {};
 		courseModel.classOfferings = [];
 		courseView.setModel(courseModel);
-		var dialog = new ModalDialog();
+		var dialog = new ModalDialog('Course View');
 		dialog.setModel(courseView.getTag());
 		dialog.setCallbackFunction(courseView, courseView.saveChanges);
 		dialog.showDialog();
@@ -14,17 +13,9 @@ $(function() {
 	$('#btnAddLocation').click(function(){
 		var locationAddView = new LocationAddView();
 		locationAddView.setModel({});
-		var dialog = new ModalDialog();
+		var dialog = new ModalDialog('Location View');
 		dialog.setModel(locationAddView.getTag());
 		dialog.setCallbackFunction(locationAddView, locationAddView.saveChanges);
-		dialog.showDialog();
-    });
-	$('#btnAddStudent').click(function(){
-		var studentView = new StudentComposeView();
-		studentView.setModel({});
-		var dialog = new ModalDialog();
-		dialog.setModel(studentView.getTag());
-		dialog.setCallbackFunction(studentView, studentView.saveChanges);
 		dialog.showDialog();
     });
 	$('a[data-toggle="tab"]').on('shown', function (e) {
@@ -33,28 +24,22 @@ $(function() {
 			  loadCourseData();
 		  } else if(target.hash == '#location') {
 			  loadLocationData();
-		  } else if(target.hash == '#student') {
-			  loadStudentData();
 		  }
 		});
 	EventManager.getInstance().registerHandler(EventManager.COURSE_CREATED, loadCourseData);
 	EventManager.getInstance().registerHandler(EventManager.COURSE_UPDATED, loadCourseData);
-	EventManager.getInstance().registerHandler(EventManager.STUDENT_CREATED, loadStudentData);
-	EventManager.getInstance().registerHandler(EventManager.STUDENT_UPDATED, loadStudentData);
 	EventManager.getInstance().registerHandler(EventManager.LOCATION_CREATED, loadLocationData);
 	EventManager.getInstance().registerHandler(EventManager.LOCATION_UPDATED, loadLocationData);
 });
 
-function cbCourses(data) {
+function jsonCBLoadCourseData(data) {
 	var simpleTable = new SimpleTableView();
 	var header = ['Id', 'Title', 'Description'];
 	simpleTable.setHeader(header);
 	var model = [];
 	for(var i in data) {
 		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editCourse(data[i].id);
-		});
+		$link.click(data[i], editCourse);
 		var item = [$link, data[i].title, data[i].description];
 		model.push(item);
 	}
@@ -63,20 +48,13 @@ function cbCourses(data) {
 	$courseDiv.empty();
 	$courseDiv.append(simpleTable.getTag());
 }
-function editCourse(id) {
+function editCourse(event) {
+	var id = event.data.id;
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'courses/' + id, "GET", "json",
-			"cbEditCourse");
+			"jsonCBEditCourse");
 }
-function cbEditCourse(data) {
+function jsonCBEditCourse(data) {
 	var courseEditView = new CourseEditView();
-	courseEditView.setModel(data);
-	var dialog = new ModalDialog();
-	dialog.setModel(courseEditView.getTag());
-	dialog.setCallbackFunction(courseEditView, courseEditView.saveChanges);
-	dialog.showDialog();
-}
-function cbEditStudent(data) {
-	var courseEditView = new StudentComposeView();
 	courseEditView.setModel(data);
 	var dialog = new ModalDialog();
 	dialog.setModel(courseEditView.getTag());
@@ -90,26 +68,20 @@ function initData() {
 }
 function loadCourseData() {
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'courses', "GET", "json",
-				"cbCourses", undefined, undefined);
+				"jsonCBLoadCourseData", undefined, undefined);
 }
 function loadLocationData() {
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'locations', "GET", "json",
-			"cbLoadLocationData", undefined, undefined);
+			"jsonCBLoadLocationData", undefined, undefined);
 }
-function loadStudentData() {
-	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students', "GET", "json",
-			"cbLoadStudentData", undefined, undefined);
-}
-function cbLoadLocationData(data) {
+function jsonCBLoadLocationData(data) {
 	var simpleTable = new SimpleTableView();
 	var header = ['Id', 'Title', 'Description'];
 	simpleTable.setHeader(header);
 	var model = [];
 	for(var i in data) {
 		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editCourse(data[i].id);
-		});
+		$link.click(data[i], editLocation);
 		var item = [$link, data[i].title, data[i].description];
 		model.push(item);
 	}
@@ -118,29 +90,18 @@ function cbLoadLocationData(data) {
 	$locationContentDiv.empty();
 	$locationContentDiv.append(simpleTable.getTag());
 }
-function cbLoadStudentData(data) {
-	var simpleTable = new SimpleTableView();
-	var header = ['Id', 'First Name', 'Last Name'];
-	simpleTable.setHeader(header);
-	var model = [];
-	for(var i in data) {
-		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editStudent(data[i].id);
-		});
-		var item = [$link, data[i].firstName, data[i].lastName];
-		model.push(item);
-	}
-	simpleTable.setModel(model);
-	var $studentContentDiv = $('#student_content');
-	$studentContentDiv.empty();
-	$studentContentDiv.append(simpleTable.getTag());
+function editLocation(event) {
+	var id = event.data.id;
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'locations/' + id, 'GET', 'json', 'jsonCBEditLocation');
 }
-function editStudent(id) {
-	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students/' + id, "GET", "json",
-			"cbEditStudent");
+function jsonCBEditLocation(data) {
+	var locationAddView = new LocationAddView();
+	locationAddView.setModel(data);
+	var dialog = new ModalDialog('Location View');
+	dialog.setModel(locationAddView.getTag());
+	dialog.setCallbackFunction(locationAddView, locationAddView.saveChanges);
+	dialog.showDialog();
 }
-
 $(function() {
     $("#navi-courses-link").addClass("active");
 });
