@@ -3,6 +3,7 @@ package springdata.jpa.repository;
 import java.util.Date;
 import java.util.List;
 
+import springdata.jpa.model.ClassOffering;
 import springdata.jpa.model.Course;
 
 

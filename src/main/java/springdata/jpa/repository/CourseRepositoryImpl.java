@@ -6,14 +6,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
 import springdata.jpa.model.Course;
-import springdata.jpa.model.Curriculum;
 import springdata.jpa.model.QClassOffering;
 import springdata.jpa.model.QCourse;
 
 public class CourseRepositoryImpl extends QueryDslRepositorySupport implements CourseRepositoryCustom {
 
 	public CourseRepositoryImpl() {
-		super(Curriculum.class);
+		super(Course.class);
 	}
 	
 	@Override

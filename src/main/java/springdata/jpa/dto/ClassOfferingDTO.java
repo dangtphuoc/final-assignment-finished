@@ -41,6 +41,9 @@ public class ClassOfferingDTO extends BaseDTO {
 		if(c.getInstructor() != null) {
 			setInstructor(new StudentDTO(c.getInstructor()));
 		}
+		if(c.getCourse() != null) {
+			setCourse(new CourseDTO(c.getCourse().getId(), c.getCourse().getTitle(), c.getCourse().getDescription()));
+		}
 	}
 
 	public LocationDTO getLocation() {

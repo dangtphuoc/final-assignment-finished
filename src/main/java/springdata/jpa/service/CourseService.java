@@ -1,14 +1,13 @@
 package springdata.jpa.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static springdata.jpa.querydsl.predicate.CoursePredicate.searchByTitleAndDescription;
+
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import springdata.jpa.dto.CourseDTO;
 import springdata.jpa.model.ClassOffering;
@@ -20,9 +19,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 
-import static springdata.jpa.querydsl.predicate.CoursePredicate.searchByTitleAndDescription;
-
 @Service
+@Transactional(readOnly=true)
 public class CourseService {
 	
 	@Autowired
@@ -31,6 +29,7 @@ public class CourseService {
 	@Autowired
 	private ClassOfferingRepository classOfferingRepository;
 	
+	@Transactional(readOnly=false)
 	public Course createCourse(CourseDTO courseDTO) {
 		Course course = courseDTO.toCourse();
 		if(course.getClassOfferings() != null) {
@@ -38,6 +37,7 @@ public class CourseService {
 				c.setCourse(course);
 			}
 		}
+		
 		Course managedCourse = courseRepository.save(course);
 		return managedCourse;
 	}
@@ -51,11 +51,10 @@ public class CourseService {
 	}
 
 	public Course getCourse(Long courseId) {
-		List<ClassOffering> offerings = classOfferingRepository.getClassOfferingsByCourseId(courseId);
 		return courseRepository.findOne(courseId);
 	}
 
-	@Transactional
+	@Transactional(readOnly=false)
 	public Course updateCourse(CourseDTO courseDTO) {
 		Course course = courseDTO.toCourse();
 		Course oldCourse = courseRepository.findOne(course.getId());

@@ -69,7 +69,7 @@ $(document).bind('ajaxError', function(error, response) {
     if (response.status == "404") {
         window.location.href = JSConfig.getInstance().getRESTUrl() + "error/404";
     }
-    else {
+    else if(response.status == "500"){
         window.location.href = JSConfig.getInstance().getRESTUrl() + "error/error";
     }
 });

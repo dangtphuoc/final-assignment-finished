@@ -27,6 +27,10 @@ public class CourseDTO extends BaseDTO{
 		}
 	}
 
+	public CourseDTO(Long id, String title, String description) {
+		super(id, title, description);
+	}
+
 	public List<ClassOfferingDTO> getClassOfferings() {
 		return classOfferings;
 	}

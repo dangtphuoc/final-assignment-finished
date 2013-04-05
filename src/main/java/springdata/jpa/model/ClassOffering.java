@@ -39,7 +39,7 @@ public class ClassOffering extends AbstractBean {
 	private Date endTime;
 	
 	@JsonIgnore
-	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	@ManyToOne(fetch=FetchType.EAGER, optional=false)
 	@JoinColumn(name="CourseId")
 	private Course course;
 	

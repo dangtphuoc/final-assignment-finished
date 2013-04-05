@@ -44,7 +44,8 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = {
         "springdata.jpa.controller",
-        "springdata.jpa.service"
+        "springdata.jpa.service",
+        "springdata.jpa.exception"
 })
 @EnableTransactionManagement
 @EnableWebMvc
@@ -105,12 +106,6 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
         dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
         dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
         
-        //StringBuffer initSQL = new StringBuffer();
-        //initSQL.append("INSERT INTO tbl_role(id,description,title)VALUES(1,'Administrator','Administrator')");
-        //initSQL.append("INSERT INTO tbl_role(id,description,title)VALUES(2,'Manager','Manager')");
-        //initSQL.append("INSERT INTO tbl_role(id,description,title)VALUES(3,'Instructor','Instructor')");
-        //initSQL.append("INSERT INTO tbl_role(id,description,title)VALUES(4,'Student','Student')");
-        //dataSource.setInitSQL(initSQL.toString());
         return dataSource;
     }
 

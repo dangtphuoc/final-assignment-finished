@@ -9,6 +9,9 @@ import springdata.jpa.common.ErrorType;
 public class ResponseBean {
 	private int code;
 	private String message;
+	
+	public ResponseBean() {
+	}
 	public ResponseBean(ErrorType error) {
 		this.code = error.getCode();
 		this.message = error.getMessage();
