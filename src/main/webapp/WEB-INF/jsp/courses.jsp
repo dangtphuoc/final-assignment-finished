@@ -4,29 +4,33 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <script type="text/javascript" src="<c:url value="/static/js/course_edit_view.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/course_compose_view.js" />" ></script>
     <script type="text/javascript" src="<c:url value="/static/js/classoffering_compose_view.js" />" ></script>
     <script type="text/javascript" src="<c:url value="/static/js/date_input.js" />" ></script>
-    <script type="text/javascript" src="<c:url value="/static/js/location_add_view.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/location_compose_view.js" />" ></script>
     <script type="text/javascript" src="<c:url value="/static/js/student_compose_view.js"/>" ></script>
+    <script type="text/javascript" src="<c:url value="/static/js/student_search_view.js"/>" ></script>
     <script type="text/javascript" src="<c:url value="/static/js/courses.js" />" ></script>
     <title></title>
 </head>
 <body>
 <div class="bs-docs-example">
 		<ul id="myTab" class="nav nav-tabs">
-			<li class="active"><a href="#home" data-toggle="tab">Courses</a></li>
+			<li class="active"><a href="#course" data-toggle="tab">Courses</a></li>
 			<li class=""><a href="#location" data-toggle="tab">Location</a></li>
-			<li class=""><a href="#student" data-toggle="tab">Student</a></li>
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li class=""><a href="#dropdown1" data-toggle="tab">@fat</a></li>
-					<li class=""><a href="#dropdown2" data-toggle="tab">@mdo</a></li>
-				</ul></li>
+			<li class=""><a href="#searchnenroll" data-toggle="tab">Search & Enroll</a></li>
 		</ul>
 		<div id="myTabContent" class="tab-content">
-			<div class="tab-pane fade active in" id="home">
+			<div class="tab-pane fade active in" id="course">
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inKeySearch">Find: </label>
+						<div class="controls">
+							<input type="text" id="inSearchKey" placeholder="Enter key to search" />
+							<button type="button" class="btn" id="btnSearch"><i class="icon-search"></i> Search</button>
+						</div>
+					</div>
+				</form>
 				<div class="pull-right">
 					<button type="button" class="btn" id="btnAddCourse"><i class="icon-plus"></i> Add</button>
 				</div>
@@ -41,38 +45,32 @@
 				<div id='location_content' class='content_table_div'></div>
 			</div>
 			
-			<div class="tab-pane fade" id="student">
-				<div class="control-group">
-					<div class="controls">
-						<button type="button" class="btn btn-primary" id="btnAddStudent">Add</button>
-						<button type="button" class="btn btn-primary" id="btnDeleteStudent">Delete</button>
+			<div class="tab-pane fade" id="searchnenroll">
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inSearchnEnrollKey">Find: </label>
+						<div class="controls">
+							<input type="text" id="inSearchnEnrollKey" placeholder="Enter key to search" />
+							<button type="button" class="btn" id="btnSearchnEnroll"><i class="icon-search"></i> Search</button>
+						</div>
 					</div>
-					<div id='student_content'></div>
+					<div class="control-group">
+						<label class="control-label">Start Date: </label>
+						<div class="controls" id="startDateDiv">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">From Date: </label>
+						<div class="controls" id="endDateDiv">
+						</div>
+					</div>
+				</form>
+				<div class="pull-right">
+					<button type="button" class="btn" id="btnEnroll"><i class="icon-pencil"></i> Enroll</button>
 				</div>
+				<div id='searchnenroll_content' class='content_table_div'></div>
 			</div>
 			
-			<div class="tab-pane fade" id="dropdown1">
-				<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
-					sold out mcsweeney's organic lomo retro fanny pack lo-fi
-					farm-to-table readymade. Messenger bag gentrify pitchfork tattooed
-					craft beer, iphone skateboard locavore carles etsy salvia banksy
-					hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify
-					squid 8-bit cred pitchfork. Williamsburg banh mi whatever
-					gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
-					vice blog. Scenester cred you probably haven't heard of them, vinyl
-					craft beer blog stumptown. Pitchfork sustainable tofu synth
-					chambray yr.</p>
-			</div>
-			<div class="tab-pane fade" id="dropdown2">
-				<p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
-					art party before they sold out master cleanse gluten-free squid
-					scenester freegan cosby sweater. Fanny pack portland seitan DIY,
-					art party locavore wolf cliche high life echo park Austin. Cred
-					vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-					farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral,
-					mustache readymade thundercats keffiyeh craft beer marfa ethical.
-					Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
-			</div>
 		</div>
 	</div>
 </body>

@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,12 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import springdata.jpa.common.ErrorType;
 import springdata.jpa.dto.ClassOfferingDTO;
-import springdata.jpa.dto.CourseDTO;
+import springdata.jpa.dto.EnrollmentData;
 import springdata.jpa.dto.ResponseBean;
 import springdata.jpa.model.ClassOffering;
-import springdata.jpa.model.Course;
 import springdata.jpa.service.ClassOfferingService;
-import springdata.jpa.service.CourseService;
 
 
 
@@ -35,7 +30,6 @@ import springdata.jpa.service.CourseService;
 public class ClassOfferingsController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClassOfferingsController.class);
-	private static final String COURSE_HOME_VIEW = "courses";
 	
 	@Autowired
 	private ClassOfferingService classOfferingService;
@@ -46,6 +40,9 @@ public class ClassOfferingsController {
 	public List<ClassOfferingDTO> searchClassOfferings(@RequestParam(value="key", required=false) String key, 
 			@RequestParam(value="startDate", required=false) Date startDate,
 			@RequestParam(value="endDate", required=false) Date endDate) {
+		
+		LOGGER.debug("Searching class offerings...");
+		
 		List<ClassOffering> classOfferings = classOfferingService.searchClassOfferings(key, startDate, endDate);
 		
 		//build json class offering
@@ -59,4 +56,14 @@ public class ClassOfferingsController {
 		return classOfferingDTOs;
 	}
 	
+	@RequestMapping(value="/enroll", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseBean enrollClassOfferings(@RequestBody EnrollmentData enrollmentData,
+			BindingResult result) {
+		LOGGER.debug("enrolling class offering...");
+		
+		classOfferingService.enrollClassOfferings(enrollmentData.getClassOfferingIds(), enrollmentData.getStudentIds(), result);
+		ErrorType error = ErrorType.SUCCESS;
+		return new ResponseBean(error);
+	}
 }

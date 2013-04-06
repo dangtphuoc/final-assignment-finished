@@ -6,13 +6,13 @@ var Contact = {
     addErrorMessage:function (message) {
         var alertTemplate = Handlebars.compile($("#template-alert-message-error").html());
         $("#message-holder").html(alertTemplate({message:message}));
-        $("#alert-message-error").alert().delay(2000).fadeOut("fast", function() { $(this).remove(); });
+        $("#alert-message-error").alert().delay(3000).fadeOut("fast", function() { $(this).remove(); });
     },
 
     addMessage:function (message) {
         var alertTemplate = Handlebars.compile($("#template-alert-message").html());
         $("#message-holder").html(alertTemplate({message:message}));
-        $("#alert-message").alert().delay(5000).fadeOut("fast", function() { $(this).remove(); });
+        $("#alert-message").alert().delay(3000).fadeOut("fast", function() { $(this).remove(); });
     },
     getErrorMessageCacheKey: function() {
         return "contacts.errorMessage";

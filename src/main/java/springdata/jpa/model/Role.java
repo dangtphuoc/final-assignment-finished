@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="Tbl_Role")
-public class Role extends AbstractBean {
+public class Role extends AbstractEntity {
 	
 	/**
 	 * 

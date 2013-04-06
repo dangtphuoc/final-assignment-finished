@@ -39,12 +39,16 @@ ModalDialog.prototype.setCallbackFunction = function(context, cb, data) {
 };
 
 ModalDialog.prototype.handleSaveChanges = function() {
+	var errorCode = JSConfig.STATUS_SUCCESS;
 	if(this.cbFunction != undefined) {
 		if(this.data != undefined) {
-			this.cbFunction.call(this.cbContext, this.data);
+			errorCode = this.cbFunction.call(this.cbContext, this.data);
 		} else {
-			this.cbFunction.call(this.cbContext);
+			errorCode = this.cbFunction.call(this.cbContext);
 		}
 	}
-	this.$tag.modal('hide');
+	
+	if(errorCode != JSConfig.STATUS_FAIL) {
+		this.$tag.modal('hide');
+	}
 };

@@ -1,5 +1,6 @@
 package springdata.jpa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,13 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
+import springdata.jpa.dto.CurriculumDTO;
 import springdata.jpa.model.Curriculum;
-import springdata.jpa.querydsl.predicate.CurriculaPredicate;
+import springdata.jpa.model.CurriculumRegistration;
+import springdata.jpa.model.Student;
 import springdata.jpa.repository.CurriculumRepository;
+import springdata.jpa.repository.StudentRepository;
 
 import com.google.common.collect.Lists;
-import com.mysema.query.types.Predicate;
 
 @Service
 @Transactional(readOnly=true)
@@ -23,8 +27,13 @@ public class CurriculumService {
 	@Autowired
 	private CurriculumRepository curriculumRepository;
 	
+	@Autowired
+	private StudentRepository studentRepository;
+	
 	@Transactional
-	public Curriculum createUpdateCurriculum(Curriculum curriculum) {
+	public Curriculum createUpdateCurriculum(CurriculumDTO curriculumDTO) {
+		Curriculum curriculum = curriculumDTO.toCurriculum();
+		
 		if(curriculum.getId() == null) {
 			LOGGER.debug("creating curriculum" + curriculum.getTitle());
 			
@@ -40,15 +49,15 @@ public class CurriculumService {
 		return curriculum;
 	}
 
-	public List<Curriculum> getCurricula() {
-		return Lists.newArrayList(curriculumRepository.findAll());
+	public List<Curriculum> getCurricula(String key) {
+		return Lists.newArrayList(curriculumRepository.searchCurricula(key));
 	}
 
 	public Curriculum getCurriculum(Long id) {
 		return curriculumRepository.getCurriculumById(id);
 	}
 
-	@Transactional
+	@Transactional(readOnly=false)
 	public void deleteCurriculum(Long id) {
 		Curriculum curriculum = curriculumRepository.findOne(id);
 		if(curriculum != null) {
@@ -56,7 +65,25 @@ public class CurriculumService {
 		}
 	}
 
-	public List<Curriculum> searchCurricula(String key) {
-		return curriculumRepository.searchCurricula(key);
+	@Transactional(readOnly=false)
+	public void enrollCurricula(List<Long> curriculumIds, List<Long> studentIds, BindingResult result) {
+		for(Long curriculumId : curriculumIds) {
+			Curriculum curriculum = curriculumRepository.findOne(curriculumId);
+			for(Long studentId : studentIds) {
+				Student student = studentRepository.findOne(studentId);
+				if(!curriculum.isStudentAlreadyEnrolled(student)) {
+					CurriculumRegistration curriculumRegistration = new CurriculumRegistration();
+					curriculumRegistration.setCurriculum(curriculum);
+					curriculumRegistration.setStudent(student);
+					curriculumRegistration.setEnrolledDate(new Date());
+					curriculum.getEnrolledStudents().add(curriculumRegistration);
+				}
+			}
+		}
+	}
+
+	public List<Curriculum> searchCurricula(String key, String withCourse) {
+		List<Curriculum> curricula = curriculumRepository.searchCurricula(key, withCourse);
+		return curricula;
 	}
 }

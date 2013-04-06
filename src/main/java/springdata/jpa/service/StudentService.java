@@ -1,17 +1,23 @@
 package springdata.jpa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import springdata.jpa.exception.RestResponseEntityException;
+import springdata.jpa.model.AbstractEntity;
+import springdata.jpa.model.ClassOfferingRegistration;
+import springdata.jpa.model.CurriculumRegistration;
 import springdata.jpa.model.Student;
 import springdata.jpa.repository.StudentRepository;
 
 import com.google.common.collect.Lists;
 
 @Service
+@Transactional(readOnly=true)
 public class StudentService {
 	
 	@Autowired
@@ -25,7 +31,7 @@ public class StudentService {
 		return studentRepository.findOne(studentId);
 	}
 
-	@Transactional
+	@Transactional(readOnly=false)
 	public Student createUpdateStudent(Student student) {
 		Student managedStudent = null;
 		if(student.getId() == null) {
@@ -40,6 +46,29 @@ public class StudentService {
 
 	public List<Student> getStudents(Long filterRole) {
 		return studentRepository.getStudents(filterRole);
+	}
+
+	public List<Student> searchStudents(String key) {
+		return studentRepository.findByFirstNameContainingOrLastNameContaining(key, key);
+	}
+
+	public List<AbstractEntity> getEnrolledContent(Long studentId) {
+		Student student = studentRepository.findOne(studentId);
+		if(student == null) throw new RestResponseEntityException("Student not found");
+		
+		List<AbstractEntity> results = new ArrayList<AbstractEntity>();
+		if(student.getEnrolledClassOfferings() != null) {
+			for(ClassOfferingRegistration reg : student.getEnrolledClassOfferings()) {
+				results.add(reg.getClassOffering());
+			}
+		}
+		
+		if(student.getEnrolledCurricula() != null) {
+			for(CurriculumRegistration reg : student.getEnrolledCurricula()) {
+				results.add(reg.getCurriculum());
+			}
+		}
+		return results;
 	}
 
 }

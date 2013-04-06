@@ -19,7 +19,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @XmlRootElement(name="course")
 @Table(name="Tbl_Course")
-public class Course extends AbstractBean {
+public class Course extends AbstractEntity {
 	
 	/**
 	 * 

@@ -5,6 +5,7 @@ EventManager.STUDENT_CREATED = 'student_create';
 EventManager.STUDENT_UPDATED = 'student_update';
 EventManager.COURSE_CREATED = 'course_create';
 EventManager.COURSE_UPDATED = 'course_update';
+EventManager.COURSE_ENROLLED = 'course_enrolled';
 EventManager.LOCATION_CREATED = 'location_create';
 EventManager.LOCATION_UPDATED = 'location_update';
 EventManager.CURRICULUM_CREATED = 'curriculum_created';

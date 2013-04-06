@@ -1,7 +1,6 @@
 package springdata.jpa.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -57,10 +56,8 @@ public class CoursesController {
 	@RequestMapping(value="/search", method = RequestMethod.GET, 
 			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<CourseDTO> searchCourses(@RequestParam(value="key", required=false) String key, 
-			@RequestParam(value="startDate", required=false) Date startDate,
-			@RequestParam(value="endDate", required=false) Date endDate) {
-		List<Course> courses = courseService.searchCourses(key, startDate, endDate);
+	public List<CourseDTO> searchCourses(@RequestParam(value="key", required=false) String key) {
+		List<Course> courses = courseService.getCourses(key);
 		
 		//build json courses
 		List<CourseDTO> courseDTOs = new ArrayList<CourseDTO>();
@@ -108,6 +105,13 @@ public class CoursesController {
 		
 		CourseDTO courseDTO = new CourseDTO(course);
 		return courseDTO;
+	}
+	
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public void deleteCourse(@PathVariable("id") Long courseId) 
+	{
+		courseService.deleteCourse(courseId);
 	}
 	
 	/**

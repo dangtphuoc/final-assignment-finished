@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import springdata.jpa.model.Location;
 import springdata.jpa.repository.LocationRepository;
@@ -11,6 +12,7 @@ import springdata.jpa.repository.LocationRepository;
 import com.google.common.collect.Lists;
 
 @Service
+@Transactional(readOnly = true)
 public class LocationService {
 	
 	@Autowired
@@ -28,10 +30,15 @@ public class LocationService {
 		return locationRepository.findOne(locationId);
 	}
 
+	@Transactional(readOnly = false)
 	public Location updateLocation(Location location) {
-		Location oldLocation = locationRepository.findOne(location.getId());
-		oldLocation.setTitle(location.getTitle());
-		oldLocation.setDescription(location.getDescription());
-		return oldLocation;
+		Location managedLocation = locationRepository.findOne(location.getId());
+		if(managedLocation != null) {
+			managedLocation.setTitle(location.getTitle());
+			managedLocation.setDescription(location.getDescription());
+			managedLocation.setContactPerson(location.getContactPerson());
+			managedLocation.setTelephone(location.getTelephone());
+		}
+		return managedLocation;
 	}
 }

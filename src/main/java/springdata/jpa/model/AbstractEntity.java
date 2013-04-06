@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class AbstractBean implements Serializable{
+public class AbstractEntity implements Serializable{
 	
 	/**
 	 * 
@@ -27,15 +27,15 @@ public class AbstractBean implements Serializable{
 	@Column(name="Description")
 	protected String description;
 	
-	public AbstractBean() {
+	public AbstractEntity() {
 	}
 	
-	public AbstractBean(String title, String description) {
+	public AbstractEntity(String title, String description) {
 		this.title = title;
 		this.description = description;
 	}
 	
-	public AbstractBean(Long id, String title, String description) {
+	public AbstractEntity(Long id, String title, String description) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -63,9 +63,9 @@ public class AbstractBean implements Serializable{
 	public boolean equals(Object obj) {
 		if(obj == null || obj.getClass() != this.getClass()) return false;
 		
-		if(!(obj instanceof AbstractBean)) return false;
+		if(!(obj instanceof AbstractEntity)) return false;
 		
-		AbstractBean otherBean = (AbstractBean) obj;
+		AbstractEntity otherBean = (AbstractEntity) obj;
 		if(this.getId() == null || otherBean.getId() == null) return false;
 		
 		return this.getId() == otherBean.getId();

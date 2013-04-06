@@ -1,5 +1,6 @@
 package springdata.jpa.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,22 +33,46 @@ public class LocationsController {
 	
 	@RequestMapping(method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public List<Location> getLocations() {
-		return locationService.getLocations();
+	public List<LocationDTO> getLocations() {
+		LOGGER.debug("getting locations...");
+		
+		List<Location> locations = locationService.getLocations();
+		List<LocationDTO> locationDTOs = new ArrayList<LocationDTO>();
+		for(Location location : locations) {
+			locationDTOs.add(new LocationDTO(location));
+		}
+		return locationDTOs;
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
 	public LocationDTO getLocation(@PathVariable("id") Long id) {
+		LOGGER.debug("getting location: " + id);
+		
 		Location location =  locationService.getLocation(id);
 		LocationDTO locationDTO = new LocationDTO(location);
 		return locationDTO;
 	}
 	
+	@RequestMapping(method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@ResponseBody
+	public ResponseBean createLocation(@RequestBody Location location) {
+		LOGGER.debug("creating location...");
+		
+		location = locationService.createLocation(location);
+		ErrorType error = ErrorType.SUCCESS;
+		if(location.getId() != null) {
+    		error = ErrorType.FAIL;
+    	}
+        return new ResponseBean(error);
+	}
+	
 	@RequestMapping(value="/update", method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ResponseBody
-	public ResponseBean getLocations(@RequestBody Location location) {
-		location = locationService.createLocation(location);
+	public ResponseBean updateLocation(@RequestBody Location location) {
+		LOGGER.debug("updating location...");
+		
+		location = locationService.updateLocation(location);
 		ErrorType error = ErrorType.SUCCESS;
 		if(location.getId() != null) {
     		error = ErrorType.FAIL;

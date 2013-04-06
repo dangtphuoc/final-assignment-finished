@@ -60,10 +60,12 @@ legend {
 .classoffering_compose_view_content_table input {
 	width: 120px;
 }
-#alert-message-error{
+#alert-message-error,
+#alert-message {
 	display: block;
 	position: fixed;
 	top: 10px;
-	right: 40%;
+	right: 25%;
+	width: 50%;
 	z-index: 9999;
 }

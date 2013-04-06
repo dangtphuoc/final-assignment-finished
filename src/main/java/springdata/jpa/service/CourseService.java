@@ -89,4 +89,12 @@ public class CourseService {
 	public List<Course> searchCourses(String key, Date startDate, Date endDate) {
 		return courseRepository.searchCourses(key, startDate, endDate);
 	}
+
+	@Transactional(readOnly=false)
+	public void deleteCourse(Long courseId) {
+		Course course = courseRepository.findOne(courseId);
+		if(course != null) {
+			courseRepository.delete(course);
+		}
+	}
 }

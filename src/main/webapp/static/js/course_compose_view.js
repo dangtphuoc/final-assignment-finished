@@ -1,16 +1,15 @@
-function CourseEditView(isCreate) {
-	this.isCreate = isCreate;
+function CourseComposeView() {
 	this.$tag = $('<div>');
 	this.$title =  $('<input>').attr({"type":"text", "placeholder":"Title"});
 	this.$description =  $('<textarea>').attr({"row":"3", "placeholder":"Description"});
 	var $form = $('<form class="form-horizontal">');
 	var $controlGroup1 = $('<div class="control-group">');
-	var $label1 = $('<label class="control-label" for="courseEditTitle">Course Title</label>');
+	var $label1 = $('<label class="control-label">Course Title</label>');
 	var $controls1 = $('<div class="controls">');
 	var $controlGroup2 = $('<div class="control-group">');
-	var $label2 = $('<label class="control-label" for="courseEditDescription">Course Description</label>');
+	var $label2 = $('<label class="control-label">Course Description</label>');
 	var $controls2 = $('<div class="controls">');
-	var $content = $('<div class="edit_course_content_div">');
+	var $content = $('<div class="content_table_div">');
 	$content.append($form);
 	$form.append($controlGroup1);
 	$form.append($controlGroup2);
@@ -29,28 +28,42 @@ function CourseEditView(isCreate) {
 	return this;
 }
 
-CourseEditView.prototype = new BaseView();
+CourseComposeView.prototype = new BaseView();
 
-CourseEditView.prototype.repaint = function() {
+CourseComposeView.prototype.repaint = function() {
 	this.$title.val(this.model.title);
 	this.$description.val(this.model.description);
 	this.classOfferingView.setModel(this.model.classOfferings);
 };
 
-CourseEditView.prototype.saveChanges = function() {
+CourseComposeView.prototype.saveChanges = function() {
+	var errorCode = this.validateData();
+	if(errorCode == JSConfig.STATUS_SUCCESS) {
+		var title = this.$title.val();
+		var description = this.$description.val();
+		this.model.title = title;
+		this.model.description = description;
+		this.model.classOfferings = this.classOfferingView.model;
+		var url = JSConfig.getInstance().getRESTUrl() + 'courses';
+		if(this.model.id != undefined && this.model.id != "") {
+			url = JSConfig.getInstance().getRESTUrl() + 'courses/update';
+		}
+		makeAjaxRequest(url, "POST", "json",
+				"cbSaveChanges", undefined, JSON.stringify(this.model));
+		
+		return JSConfig.STATUS_SUCCESS;
+	} else {
+		Contact.addErrorMessage("Course title or description is empty.");
+	}
+	
+	return errorCode;
+};
+CourseComposeView.prototype.validateData = function() {
 	var title = this.$title.val();
 	var description = this.$description.val();
-	this.model.title = title;
-	this.model.description = description;
-	this.model.classOfferings = this.classOfferingView.model;
-	var url = JSConfig.getInstance().getRESTUrl() + 'courses';
-	if(!this.isCreate) {
-		url = JSConfig.getInstance().getRESTUrl() + 'courses/update';
-	}
-	makeAjaxRequest(url, "POST", "json",
-			"cbSaveChanges", undefined, JSON.stringify(this.model));
+	if(title == "" || description == "") return JSConfig.STATUS_FAIL;
+	return JSConfig.STATUS_SUCCESS;
 };
-
 function cbSaveChanges(data) {
 	EventManager.getInstance().notifyEvent(EventManager.COURSE_CREATED);
 }

@@ -1,12 +1,15 @@
 package springdata.jpa.model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,7 +22,7 @@ import springdata.jpa.config.CustomDateSerializer;
 @Entity
 @XmlRootElement(name="classOffering")
 @Table(name="Tbl_ClassOffering")
-public class ClassOffering extends AbstractBean {
+public class ClassOffering extends AbstractEntity {
 	
 	/**
 	 * 
@@ -46,6 +49,9 @@ public class ClassOffering extends AbstractBean {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="InstructorId")
 	private Student instructor;
+	
+	@OneToMany(mappedBy="classOffering", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true)
+	private Set<ClassOfferingRegistration> enrolledStudents;
 	
 	public ClassOffering() {
 	}
@@ -96,5 +102,21 @@ public class ClassOffering extends AbstractBean {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public Set<ClassOfferingRegistration> getEnrolledStudents() {
+		return enrolledStudents;
+	}
+
+	public void setEnrolledStudents(Set<ClassOfferingRegistration> enrolledStudents) {
+		this.enrolledStudents = enrolledStudents;
+	}
+	
+	public boolean isStudentAlreadyEnrolled(Student student) {
+		if(enrolledStudents == null) return false;
+		for(ClassOfferingRegistration claReg : enrolledStudents) {
+			if(claReg.getStudent().equals(student)) return true;
+		}
+		return false;
 	}
 }

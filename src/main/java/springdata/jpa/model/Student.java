@@ -3,6 +3,7 @@ package springdata.jpa.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="Tbl_Student")
-public class Student extends AbstractBean {
+public class Student extends AbstractEntity {
 	
 	/**
 	 * 
@@ -45,6 +46,14 @@ public class Student extends AbstractBean {
 	@JoinTable(name="Tbl_StudentRole", joinColumns=@JoinColumn(name="StudentId"), inverseJoinColumns=@JoinColumn(name="RoleId"))
 	private Set<Role> roles;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="student", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	private Set<ClassOfferingRegistration> enrolledClassOfferings;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="student", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	private Set<CurriculumRegistration> enrolledCurricula;
+	
 	public Student() {
 	}
 	
@@ -53,6 +62,24 @@ public class Student extends AbstractBean {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
+	
+	public Set<ClassOfferingRegistration> getEnrolledClassOfferings() {
+		return enrolledClassOfferings;
+	}
+
+	public void setEnrolledClassOfferings(
+			Set<ClassOfferingRegistration> enrolledClassOfferings) {
+		this.enrolledClassOfferings = enrolledClassOfferings;
+	}
+
+	public Set<CurriculumRegistration> getEnrolledCurricula() {
+		return enrolledCurricula;
+	}
+
+	public void setEnrolledCurricula(Set<CurriculumRegistration> enrolledCurricula) {
+		this.enrolledCurricula = enrolledCurricula;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}

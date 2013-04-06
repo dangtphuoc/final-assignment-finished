@@ -1,10 +1,3 @@
-/**
- * Global variables
- */
-
-var startDate = undefined;
-var endDate = undefined;
-
 $(function() {
 	
 	initData();
@@ -14,39 +7,16 @@ $(function() {
 		studentView.setModel({});
 		var dialog = new ModalDialog('Student Compose View');
 		dialog.setModel(studentView.getTag());
-		dialog.setCallbackFunction(studentView, studentView.handleEnrollment);
+		dialog.setCallbackFunction(studentView, studentView.saveChanges);
 		dialog.showDialog();
     });
 	
 	$('#btnSearch').click(function() {
-		var searchKey = $('#inSearchKey').val();
-		var url = JSConfig.getInstance().getRESTUrl() + 'classofferings/search' + '?key=' + searchKey;
-		if(startDate.getSelectedDate() != "") url += moment(startDate.getSelectedDate()).format(JSConfig.SYSTEM_FORMAT_DATE);
-		if(endDate.getSelectedDate() != "") url += moment(endDate.getSelectedDate().format(JSConfig.SYSTEM_FORMAT_DATE));
-		makeAjaxRequest(url, 'GET', 'JSON', "jsonCBClassOfferings");
+		var studentId = $('#selStudent').val();
+		var url = JSConfig.getInstance().getRESTUrl() + 'students/' + studentId + '/enrolledcontent';
+		makeAjaxRequest(url, 'GET', 'JSON', "jsonCBEnrolledContent");
 	});
 	
-	$('#btnEnroll').click(function() {
-		var selectedClassOfferings = getSelectedClassOfferings();
-		if(selectedClassOffering.length == 0) {
-			Contact.addErrorMessage('There is no class offerings selected.');
-		} else {
-			var studentView = new StudentSearchView();
-			studentView.setModel({});
-			var dialog = new ModalDialog('Student Search');
-			dialog.setModel(studentView.getTag());
-			dialog.setCallbackFunction(studentView, studentView.saveChanges, selectedClassOfferings);
-			dialog.showDialog();
-		}
-	});
-	
-	$('a[data-toggle="tab"]').on('shown', function (e) {
-		  var target  = e.target; // activated tab
-		  if(target.hash == "#students") {
-			  loadStudentData();
-		  } else if(target.hash == '#searchnenroll') {
-		  }
-		});
 	EventManager.getInstance().registerHandler(EventManager.STUDENT_CREATED, loadStudentData);
 	EventManager.getInstance().registerHandler(EventManager.STUDENT_UPDATED, loadStudentData);
 });
@@ -61,14 +31,7 @@ function cbEditStudent(data) {
 }
 function initData() {
 	loadStudentData();
-	
-	//init search tab
-	startDate = new DateInput("startDate");
-	endDate = new DateInput("endDate");
-	$('#startDateDiv').append(startDate.getTag());
-	$('#endDateDiv').append(endDate.getTag());
-	
-	jsonCBClassOfferings([]);
+	jsonCBEnrolledContent([]);
 	
 }
 function loadStudentData() {
@@ -77,47 +40,48 @@ function loadStudentData() {
 }
 function cbLoadStudentData(data) {
 	var simpleTable = new SimpleTableView();
+	simpleTable.setRowClickFunction(editStudent);
 	var header = ['Id', 'First Name', 'Last Name'];
 	simpleTable.setHeader(header);
 	var model = [];
 	for(var i in data) {
-		var $link = $('<a>').text(data[i].id);
-		$link.click(function() {
-			editStudent(data[i].id);
-		});
-		var item = [$link, data[i].firstName, data[i].lastName];
+		var item = [data[i].id, data[i].firstName, data[i].lastName];
+		item.rowClickData = data[i];
 		model.push(item);
 	}
 	simpleTable.setModel(model);
 	var $studentContentDiv = $('#student_content');
 	$studentContentDiv.empty();
 	$studentContentDiv.append(simpleTable.getTag());
+	
+	//load select
+	var $selStudent = $('#selStudent');
+	$selStudent.empty();
+	for(var i in data) {
+		$selStudent.append($('<option>').attr({"value" : data[i].id}).text(data[i].firstName + " " + data[i].lastName));
+	}
 }
-function editStudent(id) {
-	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students/' + id, "GET", "json",
+function editStudent(event) {
+	var student = event.data;
+	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + 'students/' + student.id, "GET", "json",
 			"cbEditStudent");
 }
 
-function jsonCBClassOfferings(data) {
+function jsonCBEnrolledContent(data) {
 	var simpleTable = new SimpleTableView();
-	var header = ['', 'Course Title', 'Class Title', 'Description'];
+	var header = ['Id',  'Title', 'Description'];
 	simpleTable.setHeader(header);
 	var model = [];
 	for(var i in data) {
-		var $checkbox = $('<input>').attr({type: "checkbox"});
-		$checkbox.click(data[i], handleClassOfferingCheckbox);
-		var item = [$checkbox, data[i].course.title, data[i].title, data[i].description];
+		var item = [data[i].id, data[i].title, data[i].description];
 		model.push(item);
 	}
 	simpleTable.setModel(model);
-	var $searchNEnroll = $('#searchnenroll_content');
-	$searchNEnroll.empty();
-	$searchNEnroll.append(simpleTable.getTag());
+	var $enrollment = $('#enrollment_content');
+	$enrollment.empty();
+	$enrollment.append(simpleTable.getTag());
 }
-function handleClassOfferingCheckbox(event) {
-	var classOffering = event.data;
-	classOffering.selected = classOffering.is(":checked");
-}
+
 $(function() {
     $("#navi-students-link").addClass("active");
 });

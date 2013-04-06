@@ -27,20 +27,29 @@ public class StudentDTO extends BaseDTO {
 	public StudentDTO() {
 	}
 	
-	public StudentDTO(Student instructor) {
-		super(instructor.getId());
-		setFirstName(instructor.getFirstName());
-		setLastName(instructor.getLastName());
-		setBirthday(instructor.getBirthday());
+	public StudentDTO(Student student) {
+		super(student.getId());
+		setFirstName(student.getFirstName());
+		setLastName(student.getLastName());
+		setBirthday(student.getBirthday());
+		if(student.getManager() != null) {
+			setManager(new StudentDTO(student.getManager().getId(), student.getManager().getFirstName(), student.getManager().getLastName()));
+		}
 		List<RoleDTO> roles = new ArrayList<RoleDTO>();
-		if(instructor.getRoles() != null) {
-			for(Role r : instructor.getRoles()) {
+		if(student.getRoles() != null) {
+			for(Role r : student.getRoles()) {
 				RoleDTO roleDTO = new RoleDTO(r.getId(), r.getTitle(), r.getDescription());
 				roles.add(roleDTO);
 			}
 		}
 		setRoles(roles);
 	}
+	public StudentDTO(Long id, String firstName, String lastName) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}

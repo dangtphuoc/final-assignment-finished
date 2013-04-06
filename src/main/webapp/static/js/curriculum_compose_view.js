@@ -81,17 +81,27 @@ CurriculumComposeView.prototype.handleAddedCourses = function(addedCourses) {
 	}
 };
 CurriculumComposeView.prototype.saveChanges = function() {
-	var title = this.$title.val();
-	var description = this.$description.val();
-	this.model.title = title;
-	this.model.description = description;
-	var url = JSConfig.getInstance().getRESTUrl() + 'curricula';
-	if(this.model.id != undefined) url = JSConfig.getInstance().getRESTUrl() + 'curricula/update';
-	makeAjaxRequest(url, "POST", "json",
-	function (){
-		EventManager.getInstance().notifyEvent(EventManager.CURRICULUM_CREATED);
-	}, 
-	undefined, JSON.stringify(this.model));
+	var errorCode = this.validateData();
+	if(errorCode == JSConfig.STATUS_SUCCESS) {
+		this.model.title = this.$title.val();
+		this.model.description = this.$description.val();
+		var url = JSConfig.getInstance().getRESTUrl() + 'curricula';
+		if(this.model.id != undefined) url = JSConfig.getInstance().getRESTUrl() + 'curricula/update';
+		makeAjaxRequest(url, "POST", "json",
+		function (){
+			EventManager.getInstance().notifyEvent(EventManager.CURRICULUM_CREATED);
+		}, 
+		undefined, JSON.stringify(this.model));
+	} else {
+		Contact.addErrorMessage("Curriculum title and description must be not empty. Curriculum's content must be at least one course.");
+	}
+	return errorCode;
+};
+
+CurriculumComposeView.prototype.validateData = function() {
+	if(this.$title.val() == "" || this.$description.val() == "") return JSConfig.STATUS_FAIL;
+	if(this.model.courses.length == 0) return JSConfig.STATUS_FAIL;
+	return JSConfig.STATUS_SUCCESS;
 };
 CurriculumComposeView.prototype.removeCourseFromCurriculum = function(course) {
 	for(var i in this.model.courses) {

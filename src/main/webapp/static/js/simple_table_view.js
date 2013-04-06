@@ -6,6 +6,10 @@ function SimpleTableView() {
 
 SimpleTableView.prototype = new BaseView();
 
+SimpleTableView.prototype.setRowClickFunction = function(cbFunction) {
+	this.rowClickFunction = cbFunction;
+};
+
 SimpleTableView.prototype.setHeader = function(header) {
 	this.header = header;
 	var $row = $('<tr>');
@@ -30,6 +34,9 @@ SimpleTableView.prototype.repaint = function()  {
 		for(var i in this.model) {
 			var $row = $('<tr>');
 			var r = this.model[i];
+			if(this.rowClickFunction) {
+				$row.click(r.rowClickData, this.rowClickFunction);
+			}
 			for(var j in r) {
 				var c = r[j];
 				$row.append($('<td>').append(c));

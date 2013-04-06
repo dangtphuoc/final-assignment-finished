@@ -12,7 +12,7 @@ function CourseSearchView(parentView) {
 	var $controls = $('<div class="controls">');
 	var $label = $('<label class="control-label" for="courseEditTitle">Find:</label>');
 	this.$find =  $('<input>').attr({"type":"text", "placeholder":"Course Title"});
-	var $searchButton = $('<button>').addClass("btn").attr({"type" : "button"}).text("Search");
+	var $searchButton = $('<button>').addClass("btn").attr({"type" : "button"}).append($('<i>').addClass('icon-search')).append("Search");
 	var self = this;
 	$searchButton.click(function() {
 		self.searchCourses();

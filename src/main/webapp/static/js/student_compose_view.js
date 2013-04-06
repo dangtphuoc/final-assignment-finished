@@ -1,8 +1,7 @@
-function StudentComposeView(isCreate) {
-	this.isCreate = isCreate;
+function StudentComposeView() {
 	this.$tag = $('<div>');
 	var $form = $('<form class="form-horizontal">');
-	var $content = $('<div class="edit_course_content_div">');
+	var $content = $('<div class="content_table_div">');
 	$content.append($form);
 	this.$tag.append($content);
 	
@@ -58,7 +57,14 @@ StudentComposeView.prototype.initializeRoles = function() {
 	function(data) {
 		if(data != undefined) {
 			for(var i in data) {
-				self.$roles.append($('<option>').attr({'value' : data[i].id}).text(data[i].title));
+				var $option = $('<option>').attr({'value' : data[i].id}).text(data[i].title);
+				for(var j in self.model.roles) {
+					if(self.model.roles[j].id == data[i].id) {
+						$option.attr({"selected" : "selected"});
+						break;
+					}
+				}
+				self.$roles.append($option);
 			}
 		}
 	});
@@ -67,9 +73,15 @@ StudentComposeView.prototype.initializeManagers = function() {
 	var self = this;
 	makeAjaxRequest(JSConfig.getInstance().getRESTUrl() + "students?filterRole=2", "GET", "json",
 	function(data) {
+		var $option = $('<option>').attr({'value' : ''}).text('None');
+		self.$manager.append($option);
 		if(data != undefined) {
 			for(var i in data) {
-				self.$manager.append($('<option>').attr({'value' : data[i].id}).text(data[i].firstName + " " + data[i].lastName));
+				var $option = $('<option>').attr({'value' : data[i].id}).text(data[i].firstName + " " + data[i].lastName);
+				if(self.model.manager != undefined && self.model.manager.id == data[i].id) {
+					$option.attr({"selected" : "selected"});
+				}
+				self.$manager.append($option);
 			}
 		}
 	});
@@ -78,6 +90,9 @@ StudentComposeView.prototype.initializeManagers = function() {
 StudentComposeView.prototype.repaint = function() {
 	this.$firstName.val(this.model.firstName);
 	this.$lastName.val(this.model.lastName);
+	if(this.model.manager != undefined) {
+		this.$manager.val(this.model.manager.id);
+	}
 };
 
 StudentComposeView.prototype.saveChanges = function() {

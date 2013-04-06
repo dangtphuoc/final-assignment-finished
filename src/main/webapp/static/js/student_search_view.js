@@ -47,7 +47,7 @@ StudentSearchView.prototype.loadStudentTable = function(data) {
 	var model = [];
 	for(var i in data) {
 		var $checkBox = $('<input>').attr({"type" : "checkbox"});
-		$checkBox.change({view: this, student: data[i]}, handleCheckboxChanged);
+		$checkBox.change({view: this, student: data[i]}, this.handleCheckboxChanged);
 		var item = [$checkBox, data[i].id, data[i].firstName, data[i].lastName];
 		model.push(item);
 	}
@@ -56,31 +56,28 @@ StudentSearchView.prototype.loadStudentTable = function(data) {
 	this.$studentTable.append(simpleTable.getTag());
 };
 
-StudentSearchView.prototype.handleEnrollment = function(classOfferings) {
-	var enrollData = {};
-	var selectedStudent = new Array();
+StudentSearchView.prototype.handleSaveChanges = function() {
+	var selectedStudentIds = new Array();
 	for(var id in this.selectedStudents) {
-		if(this.selectedStudents[id] != undefined) selectedStudent.push(this.selectedStudents[id]);
+		if(this.selectedStudents[id] != undefined) selectedStudentIds.push(id);
 	}
 	
-	if(selectedStudent.length == 0) {
+	if(selectedStudentIds.length == 0) {
 		Contact.addErrorMessage("There is no student selected");
+		return JSConfig.STATUS_FAIL;
 	} else {
-		
-		enrollData.students = selectedStudent;
-		enrollData.classOfferings = classOfferings;
-		makeAjaxRequest(JSONConfig.getInstance().getRESTUrl() + '/courses/enroll', 'POST', 'json', function(data) {
-			if(data.code == 0) {
-				Contact.addMessage("Enrolled successfully.");
-			} else {
-				Contact.addErrorMessage("Enrolled unsuccessfully.");
-			}
-		}, JSON.stringify(enrollData));
+		if(this.callbackFunction != undefined) {
+			this.callbackFunction(selectedStudentIds);
+		}
+		return JSConfig.STATUS_SUCCESS;
 	}
-	
 };
 
-function handleCheckboxChanged(event) {
+StudentSearchView.prototype.setCallbackFunction = function(cbFunction) {
+	this.callbackFunction = cbFunction;
+};
+
+StudentSearchView.prototype.handleCheckboxChanged = function(event) {
 	var student = event.data.student;
 	var view = event.data.view;
 	if($(this).is(':checked')) {
@@ -88,4 +85,4 @@ function handleCheckboxChanged(event) {
 	} else {
 		view.selectedStudents[student.id] = undefined;
 	}
-}
+};

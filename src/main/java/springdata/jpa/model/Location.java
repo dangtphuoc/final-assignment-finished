@@ -12,7 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="Tbl_Location")
-public class Location extends AbstractBean {
+public class Location extends AbstractEntity {
 	/**
 	 * 
 	 */

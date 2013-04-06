@@ -13,4 +13,8 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
 	
 	@Query("Select s From Student s join s.roles r where r.id = :roleId")
 	public List<Student> getStudents(@Param("roleId") Long filterRole);
+
+	public List<Student> getStudentByFirstNameOrLastName(String key, String key2);
+
+	public List<Student> findByFirstNameContainingOrLastNameContaining(String firstName, String lastName);
 }

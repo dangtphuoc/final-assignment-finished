@@ -27,11 +27,11 @@ public class ClassOfferingRepositoryImpl extends QueryDslRepositorySupport imple
 		BooleanExpression conditions = course.title.containsIgnoreCase(key);
 		
 		if(startDate != null) {
-			conditions.and(classOffering.startTime.goe(startDate));
+			conditions = conditions.and(classOffering.startTime.goe(startDate));
 		}
 		
 		if(endDate != null) {
-			conditions.and(classOffering.endTime.loe(endDate));
+			conditions = conditions.and(classOffering.endTime.loe(endDate));
 		}
 		return query.where(conditions).distinct().list(classOffering);
 	}
