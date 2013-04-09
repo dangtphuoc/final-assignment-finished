@@ -72,13 +72,4 @@ public class Course extends AbstractEntity {
 		classOffering.setCourse(this);
 	}
 
-	public List<ClassOffering> cloneClassOfferings() {
-		List<ClassOffering> offerings = new ArrayList<ClassOffering>();
-		if(this.classOfferings != null) {
-			for(ClassOffering c : this.classOfferings) {
-				offerings.add(c);
-			}
-		}
-		return offerings;
-	}
 }

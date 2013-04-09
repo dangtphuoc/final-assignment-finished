@@ -1,6 +1,7 @@
 package springdata.jpa.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -116,4 +117,22 @@ public class Student extends AbstractEntity {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public void removeRole(Role role) {
+		if(role.getStudents() != null) {
+			role.getStudents().remove(this);
+		}
+		
+		if(this.roles != null) {
+			this.roles.remove(role);
+		}
+	}
+
+	public void addRole(Role role) {
+		if(role.getStudents() == null) role.setStudents(new HashSet<Student>());
+		role.getStudents().add(this);
+		if(this.roles == null) this.roles = new HashSet<Role>();
+		this.roles.add(role);
+	}
+
 }

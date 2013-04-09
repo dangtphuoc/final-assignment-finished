@@ -57,28 +57,28 @@ public class CourseService {
 	@Transactional(readOnly=false)
 	public Course updateCourse(CourseDTO courseDTO) {
 		Course course = courseDTO.toCourse();
-		Course oldCourse = courseRepository.findOne(course.getId());
+		Course managedCourse = courseRepository.findOne(course.getId());
 		//remove all first
-		if(oldCourse.getClassOfferings() != null) {
-			List<ClassOffering> cloneOne = oldCourse.cloneClassOfferings();
+		if(managedCourse.getClassOfferings() != null) {
+			List<ClassOffering> cloneOne = Lists.newArrayList(managedCourse.getClassOfferings());
 			for(ClassOffering cla : cloneOne) {
-				if(!course.getClassOfferings().contains(cla)) oldCourse.removeClassOffering(cla);
+				if(course.getClassOfferings() == null || !course.getClassOfferings().contains(cla)) managedCourse.removeClassOffering(cla);
 			}
 		}
 		//update class offerings
 		if(course.getClassOfferings() != null) {
 			for(ClassOffering classOffering : course.getClassOfferings()) {
 				if(classOffering.getId() == null) {
-					oldCourse.addClassOffering(classOffering);
+					managedCourse.addClassOffering(classOffering);
 				}
 				
 			}
 		}
 		
-		oldCourse.setTitle(course.getTitle());
-		oldCourse.setDescription(course.getDescription());
+		managedCourse.setTitle(course.getTitle());
+		managedCourse.setDescription(course.getDescription());
 		
-		return oldCourse;
+		return managedCourse;
 	}
 
 	public List<Course> searchCourses(String key) {

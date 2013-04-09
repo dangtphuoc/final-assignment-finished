@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import springdata.jpa.dto.StudentDTO;
 import springdata.jpa.exception.RestResponseEntityException;
 import springdata.jpa.model.AbstractEntity;
+import springdata.jpa.model.ClassOffering;
 import springdata.jpa.model.ClassOfferingRegistration;
 import springdata.jpa.model.CurriculumRegistration;
+import springdata.jpa.model.Role;
 import springdata.jpa.model.Student;
 import springdata.jpa.repository.StudentRepository;
 
@@ -44,6 +46,22 @@ public class StudentService {
 		Student managedStudent = studentRepository.findOne(student.getId());
 		managedStudent.setFirstName(student.getFirstName());
 		managedStudent.setLastName(managedStudent.getLastName());
+		//remove all first
+		if(managedStudent.getRoles() != null) {
+			List<Role> cloneOne = Lists.newArrayList(managedStudent.getRoles());
+			for(Role role : cloneOne) {
+				if(student.getRoles() == null || !student.getRoles().contains(role)) managedStudent.removeRole(role);
+			}
+		}
+		//update class offerings
+		if(student.getRoles() != null) {
+			for(Role role : student.getRoles()) {
+				if(managedStudent.getRoles() == null || !managedStudent.getRoles().contains(role)) {
+					managedStudent.addRole(role);
+				}
+				
+			}
+		}
 		return managedStudent;
 	}
 
