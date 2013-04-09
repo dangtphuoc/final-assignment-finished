@@ -89,7 +89,12 @@ CurriculumComposeView.prototype.saveChanges = function() {
 		var url = JSConfig.getInstance().getRESTUrl() + 'curricula';
 		if(this.model.id != undefined) url = JSConfig.getInstance().getRESTUrl() + 'curricula/update';
 		makeAjaxRequest(url, "POST", "json",
-		function (){
+		function (data){
+			if(data.code == JSConfig.STATUS_SUCCESS) {
+				Contact.addMessage("Curriculum has created/updated successfully.");
+			} else {
+				Contact.addErrorMessage("Failed to create/update curriculum.");
+			}
 			EventManager.getInstance().notifyEvent(EventManager.CURRICULUM_CREATED);
 		}, 
 		undefined, JSON.stringify(this.model));
