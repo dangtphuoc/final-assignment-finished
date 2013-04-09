@@ -55,13 +55,11 @@
                     </a>
                     <div class="nav-collapse">
                         <ul id="navigation" class="nav">
-                            <li id="navi-homepage-link"><a href="<c:url value="/" />" ><spring:message code="header.home.link.label"/></a></li>
-                            <li class="divider-vertical"></li>
+                        	<li id="navi-students-link"><a href="<c:url value="/students/home" />"><spring:message code="header.students.link.label"/></a></li>
+                        	<li class="divider-vertical"></li>
                             <li id="navi-courses-link"><a href="<c:url value="/courses/home" />"><spring:message code="header.courses.link.label"/></a></li>
                             <li class="divider-vertical"></li>
                             <li id="navi-curricula-link"><a href="<c:url value="/curricula/home" />"><spring:message code="header.curricula.link.label"/></a></li>
-                            <li class="divider-vertical"></li>
-                            <li id="navi-students-link"><a href="<c:url value="/students/home" />"><spring:message code="header.students.link.label"/></a></li>
                         </ul>
                     </div>
                 </div>
