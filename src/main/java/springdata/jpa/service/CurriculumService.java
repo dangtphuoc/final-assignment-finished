@@ -30,21 +30,25 @@ public class CurriculumService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
-	@Transactional
-	public Curriculum createUpdateCurriculum(CurriculumDTO curriculumDTO) {
+	@Transactional(readOnly=false)
+	public Curriculum createCurriculum(CurriculumDTO curriculumDTO) {
 		Curriculum curriculum = curriculumDTO.toCurriculum();
 		
-		if(curriculum.getId() == null) {
-			LOGGER.debug("creating curriculum" + curriculum.getTitle());
-			
-			curriculum = curriculumRepository.save(curriculum);
-		} else {
-			LOGGER.debug("updating curriculum " + curriculum.getTitle());
-			
-			Curriculum managedCurriculum = curriculumRepository.findOne(curriculum.getId());
-			if(managedCurriculum != null) {
-				curriculum = managedCurriculum.updateCurriculum(curriculum);
-			}
+		LOGGER.debug("creating curriculum" + curriculum.getTitle());
+		
+		curriculum = curriculumRepository.save(curriculum);
+		return curriculum;
+	}
+	
+	@Transactional(readOnly=false)
+	public Curriculum updateCurriculum(CurriculumDTO curriculumDTO) {
+		Curriculum curriculum = curriculumDTO.toCurriculum();
+		
+		LOGGER.debug("updating curriculum " + curriculum.getTitle());
+		
+		Curriculum managedCurriculum = curriculumRepository.findOne(curriculum.getId());
+		if(managedCurriculum != null) {
+			curriculum = managedCurriculum.updateCurriculum(curriculum);
 		}
 		return curriculum;
 	}

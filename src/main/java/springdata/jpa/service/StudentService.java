@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import springdata.jpa.dto.StudentDTO;
 import springdata.jpa.exception.RestResponseEntityException;
 import springdata.jpa.model.AbstractEntity;
 import springdata.jpa.model.ClassOfferingRegistration;
@@ -32,15 +33,17 @@ public class StudentService {
 	}
 
 	@Transactional(readOnly=false)
-	public Student createUpdateStudent(Student student) {
-		Student managedStudent = null;
-		if(student.getId() == null) {
-			managedStudent = studentRepository.save(student);
-		} else {
-			managedStudent = studentRepository.findOne(student.getId());
-			managedStudent.setFirstName(student.getFirstName());
-			managedStudent.setLastName(managedStudent.getLastName());
-		}
+	public Student createStudent(StudentDTO studentDTO) {
+		Student student = studentDTO.toStudent();
+		return studentRepository.save(student);
+	}
+	
+	@Transactional(readOnly=false)
+	public Student updateStudent(StudentDTO studentDTO) {
+		Student student = studentDTO.toStudent();
+		Student managedStudent = studentRepository.findOne(student.getId());
+		managedStudent.setFirstName(student.getFirstName());
+		managedStudent.setLastName(managedStudent.getLastName());
 		return managedStudent;
 	}
 
