@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import springdata.jpa.dto.StudentDTO;
 import springdata.jpa.exception.RestResponseEntityException;
 import springdata.jpa.model.AbstractEntity;
-import springdata.jpa.model.ClassOffering;
 import springdata.jpa.model.ClassOfferingRegistration;
 import springdata.jpa.model.CurriculumRegistration;
 import springdata.jpa.model.Role;
@@ -45,7 +44,7 @@ public class StudentService {
 		Student student = studentDTO.toStudent();
 		Student managedStudent = studentRepository.findOne(student.getId());
 		managedStudent.setFirstName(student.getFirstName());
-		managedStudent.setLastName(managedStudent.getLastName());
+		managedStudent.setLastName(student.getLastName());
 		//remove all first
 		if(managedStudent.getRoles() != null) {
 			List<Role> cloneOne = Lists.newArrayList(managedStudent.getRoles());
@@ -61,6 +60,12 @@ public class StudentService {
 				}
 				
 			}
+		}
+		
+		//update manager
+		if(!student.getManager().equals(managedStudent.getManager())) {
+			Student manager = studentRepository.findOne(student.getManager().getId());
+			managedStudent.setManager(manager);
 		}
 		return managedStudent;
 	}
